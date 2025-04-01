@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui">
+	
+	<div id="logo" class="logo">
+		<h1 id="tituloLogo">Omnia</h1>
+	</div>
+	
+	<button id="btnMenu" class="btnMenu" type="button">
+		<i id="iconMenu" class="fa-solid fa-less-than rotate"></i>
+	</button >
+	
+	<div class="search">
+	
+	</div>
+	
+	<div class="logout">
+		<p:commandButton id="btnLogout" class="btnLogout" icon="fa-solid fa-right-from-bracket" actionListener="#{welcomeView.cerrarSesion()}" onclick="PF('wvLogout').show();" />
+	</div>
+	
+	<p:dialog widgetVar="wvLogout"
+			  modal="true"
+			  draggable="false"
+			  showEffect="bounce"
+			  hideEffect="explode"
+			  closable="false" showHeader="false">
+		
+		<p>Has cerrado sesión</p>
+		<br />
+		<p:separator />
+		<br />
+		<div align="center">
+			<p:commandButton class="btnLogout" icon="fa-solid fa-check" onclick="PF('wvLogout').hide();" />
+		</div>
+				
+	</p:dialog>
+
+</ui:composition>
+

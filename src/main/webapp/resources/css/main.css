@@ -1,0 +1,343 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&amp;display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    background: #8697C4;
+}
+
+.menu, .btnLogout {
+	background: #ADBBDA !important;
+}
+
+#formPrincipal {
+	height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.header {
+	height: 5%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	height: 100%;
+	width: 13.1%;
+	border-right: 3px solid rgba(0, 0, 0, 0.2);
+	transition: transform 0.3s ease;
+	background: #ADBBDA;
+}
+
+.logo h1 {
+	color: black;
+    font-size: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.btnMenu {
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	margin-left: -14px;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+	color: white;
+	background: #ADBBDA;
+}
+
+.btnMenu i {
+	color: black;
+}
+
+.search {
+	flex: 1;
+	height: 100%;
+}
+
+.logout {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	height: 100%;
+	width: 2%;
+	overflow: hidden;
+}
+
+.btnLogout {
+	height: 30px !important;
+	width: 30px !important;
+	border-radius: 50% !important;
+	border: 1px solid rgba(0, 0, 0, 0.3) !important;
+	cursor: pointer !important;
+}
+
+.btnLogout:hover {
+	background: #7091E6 !important;
+	color: white !important;
+}
+
+.content {
+	display: flex;
+	height: 95%;
+	flex: 1;
+	overflow: hidden;
+}
+
+#formMenu, #formViews {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+.menu {
+	height: 100%;
+	width: 15%;
+	/*  border-top-right-radius: 20px; */
+	border-right: 3px solid rgba(0, 0, 0, 0.2);
+	transition: width 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+	overflow: hidden;
+}
+
+.menu.show {
+    width: 15%;
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.menu.hide {
+	width: 0%;
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.ui-menu {
+    min-width: 100% !important;
+    min-height: 100% !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.rotate {
+	transition: transform 0.3s;
+}
+
+.rotate-right {
+	transform: rotate(180deg);
+}
+
+.menu .ui-widget {
+	background: #ADBBDA !important;
+	color: black !important;
+	border-bottom: 1px solid rgba( 0, 0, 0, 0.2) !important;
+	font-weight: normal !important;
+}
+
+.menu .ui-widget:hover {
+	background: #7091E6 !important;
+}
+
+.menu .ui-panelmenu-content {
+	background: #8697C4 !important;
+}
+
+.menu .ui-panelmenu-content ul {
+	transition: transform 0.3s ease;
+}
+
+.menu .ui-panelmenu-content ul:hover {
+	border: 0.5px solid rgba( 0, 0, 0, 0.2) !important;
+}
+
+.menu .ui-panelmenu-content:hover {
+	border: 1px white black !important;
+}
+
+.menu .ui-widget a:hover {
+	background: #7091E6 !important;
+}
+
+.dynamicContent {
+	background: white;
+	height: 100%;
+	width: 100%;
+	padding: 0 2px;
+	overflow: hidden;
+}
+
+.dynamicContent .breadCrumbs {
+	height: 5%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid rgba( 0, 0, 0, 0.2) !important;
+}
+
+.dynamicContent .ui-breadcrumb {
+	flex: 1;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0;
+    margin: 0;
+    background: transparent !important;
+}
+
+.dynamicContent .ui-breadcrumb li {
+    padding-left: 5px;
+    font-size: 0.8em !important;
+}
+
+.dynamicContent .ui-breadcrumb li span {
+    font-size: 1em !important;
+    padding-right: 0px;
+}
+
+.dynamicContent .ui-breadcrumb li a {
+	pointer-events: none;
+}
+
+.dynamicContent .btnCloseTab {
+	height: 30px !important;
+	width: 30px !important;
+    color: #929b9c !important;
+    cursor: pointer !important;
+    background: transparent !important;
+    border-radius: 10px !important;
+    border: none !important;
+    transition: color 0.3s ease, background 0.3s ease, border 0.3s ease;
+    transition-delay: 0.5s;
+    left: 0;
+}
+
+.dynamicContent .contentPath .ui-tabs-panels {
+	height: 100% !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden;
+}
+
+.dynamicContent .contentPath {
+	height: 100% !important;
+	width: 100% !important;
+	overflow: hidden;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dynamicContent .breadCrumbs {
+	height: 5%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid rgba( 0, 0, 0, 0.2) !important;
+}
+
+.dynamicContent .contentPath .ui-corner-bottom {
+	height: 95% !important;
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	position: relative;
+	overflow-y: auto !important;
+}
+
+.pathContent {
+	height: 95%;
+	margin: 0;
+}
+
+#formContent{
+	height: 100%;
+	overflow: hidden;
+}
+
+.custom-growl {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: 300px;
+}
+
+.genericBox {
+	min-height: 100%;
+	padding: 10px;
+	/*
+	background: #fffcf7;
+	*/
+}
+
+#pnlManagement {
+	width: 100% !important;
+	min-height: 100% !important;
+}
+
+.ui-dialog {
+    z-index: 1000 !important;
+}
+
+.btnCreate {
+	background: #6bf929 !important;
+	border: none !important;
+	border-radius: 50px !important;
+	transition: transform 0.3s ease;
+}
+
+.btnCreate:hover {
+	background: #ff8b00 !important;
+}
+
+.btnSearch {
+	background: #0097ff !important;
+	border: none !important;
+	border-radius: 50px !important;
+	transition: transform 0.3s ease;
+}
+
+.btnSearch:hover {
+	background: #ff8b00 !important;
+}
+
+.btnCancel {
+	background: #ff0000 !important;
+	border: none !important;
+	border-radius: 50px !important;
+	transition: transform 0.3s ease;
+}
+
+.btnCancel:hover {
+	background: #ff8b00 !important;
+}
+
+.btnProcess {
+	background: #c2e386 !important;
+	border: none !important;
+	border-radius: 50px !important;
+	transition: transform 0.3s ease;
+}
+
+.btnProcess:hover {
+	background: #ff8b00 !important;
+}
+
+.selectUcompensar .ui-selectonemenu-trigger {
+	display: none !important;
+}

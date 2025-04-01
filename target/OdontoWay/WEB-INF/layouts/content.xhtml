@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:c="jakarta.tags.core"
+				xmlns:p="http://primefaces.org/ui">
+
+	<div id="pnlMenu" class="menu">
+
+		<p:menu id="pnlMenu" model="#{menuView.menuModel}" toggleable="true" />
+
+	</div>
+	
+	<h:form id="formPrincipal">
+ 	
+ 		<p:growl id="msgGeneric" showSummary="true" showDetail="true" sticky="true" styleClass="custom-growl" />
+
+		<div class="dynamicContent">
+			
+			<p:tabView id="tabViewContent" class="contentPath" effect="fade" effectDuration="low" activeIndex="#{welcomeView.activeTab}">
+			
+				<c:forEach items="#{welcomeView.lstTabs}" var="tab">
+				
+					<p:tab id="tabId" class="contentPath" title="#{tab.title}">
+					
+						<div class="breadCrumbs">
+	
+							<p:commandButton class="btnCloseTab" icon="fa fa-times" actionListener="#{welcomeView.closeTab(tab)}" rendered="#{welcomeView.showButtonCloseAll(tab)}" />
+		
+							<p:breadCrumb id="BreadCrumb">
+								<p:menuitem value="Home" />
+								<p:menuitem value="#{tab.path}" />
+							</p:breadCrumb>
+	
+						</div>
+							
+						<div class="pathContent">
+	
+							<ui:include src="#{tab.content}" />
+	
+						</div>
+	
+					</p:tab>
+	
+				</c:forEach>
+	
+			</p:tabView>
+			
+		</div>
+	
+	</h:form>
+
+</ui:composition>

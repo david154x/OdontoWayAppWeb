@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="jakarta.faces.facelets"
+	  xmlns:f="jakarta.faces.core"
+	  xmlns:h="jakarta.faces.html"
+	  xmlns:c="jakarta.tags.core"
+	  xmlns:p="http://primefaces.org/ui" >
+
+<h:head>
+	<title>JakartaEE10</title>
+	<h:outputStylesheet library="css" name="main.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.css" />
+</h:head>
+
+<h:body>
+
+	<h1>Hola mundo</h1>
+	<h:form>
+		<p:commandButton actionListener="#{menuView.consultarMenu()}" value="Consultar Menu" process="@this" />
+	</h:form>
+	
+</h:body>
+
+</html>
