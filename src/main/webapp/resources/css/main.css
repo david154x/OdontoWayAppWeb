@@ -149,20 +149,32 @@ body {
 	font-weight: normal !important;
 }
 
+.menu .ui-panelmenu .ui-widget.ui-state-active {
+    background: #7091E6 !important;
+    color: white !important;
+    font-weight: bold !important;
+}
+
 .menu .ui-widget:hover {
 	background: #7091E6 !important;
+	border: none !important;
+}
+
+.menu .ui-widget .ui-menuitem-link {
+	color: black !important;
+}
+
+.menu .ui-widget:hover .ui-menuitem-link:hover {
+	border: 1px solid white !important;
+	border-radius: 5px;
+}
+
+.menu .ui-widget:hover .ui-menuitem-link:hover span {
+	color: white !important;
 }
 
 .menu .ui-panelmenu-content {
 	background: #8697C4 !important;
-}
-
-.menu .ui-panelmenu-content ul {
-	transition: transform 0.3s ease;
-}
-
-.menu .ui-panelmenu-content ul:hover {
-	border: 0.5px solid rgba( 0, 0, 0, 0.2) !important;
 }
 
 .menu .ui-panelmenu-content:hover {
@@ -171,6 +183,7 @@ body {
 
 .menu .ui-widget a:hover {
 	background: #7091E6 !important;
+	
 }
 
 .dynamicContent {
@@ -214,16 +227,21 @@ body {
 }
 
 .dynamicContent .btnCloseTab {
-	height: 30px !important;
-	width: 30px !important;
-    color: #929b9c !important;
+	height: 35px !important;
+	width: 35px !important;
     cursor: pointer !important;
     background: transparent !important;
-    border-radius: 10px !important;
     border: none !important;
-    transition: color 0.3s ease, background 0.3s ease, border 0.3s ease;
-    transition-delay: 0.5s;
-    left: 0;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.dynamicContent .btnCloseTab:hover {
+	background: #7091E6 !important;
+}
+
+.dynamicContent .btnCloseTab .fa {
+	color: #333;
 }
 
 .dynamicContent .contentPath .ui-tabs-panels {

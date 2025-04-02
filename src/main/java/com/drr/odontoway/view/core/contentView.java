@@ -1,22 +1,26 @@
 package com.drr.odontoway.view.core;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.primefaces.PrimeFaces;
 
+import com.drr.odontoway.core.service.MenuService;
 import com.drr.odontoway.view.core.dto.TabItemDTO;
+import com.drr.odontoway.view.util.JsfUtils;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
 
 @Named
 @ViewScoped
-public class WelcomeView implements Serializable {
+public class contentView implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -26,52 +30,32 @@ public class WelcomeView implements Serializable {
 	@Getter @Setter
 	private List<TabItemDTO> lstTabs;
 	
+	@Inject
+	private MenuService menuService;
+	
+	@Inject
+	private JsfUtils jsfUtils;
+	
 	@PostConstruct
 	private void init() {
 		this.activeTab = 0;
 		this.lstTabs = new ArrayList<>();
-//		crearTabBienvenidaAplicacion();
     }
 	
-//	private void crearTabBienvenidaAplicacion() {
-//		cargarPaginaSeleccionada("Home");
-//	}
-	
-	public void cargarPaginaSeleccionada(String menuSeleccionado) {
+	public void cargarPaginaSeleccionada(Integer idMenu, String nombreMenu, String rutaUrl, String nombreDocumento) {
 		
-		if ( menuSeleccionado.equals("HelloPetStore") ) {
-			this.agregarTab(menuSeleccionado, menuSeleccionado, null);
+		if ( this.lstTabs != null && lstTabs.size() >= 5 ) {
+			this.jsfUtils.addMsgError("No se permiten cargar mas de 5 pestañas, porfavor cierre alguna que no este utilizando");
+			this.jsfUtils.updateMsg();
 			return ;
 		}
 		
-	    String msjUbicacion = "Estas en: " + menuSeleccionado;
-	    
-		if ( menuSeleccionado.equals("createBook") ) {
-			
-			msjUbicacion = "Estas en: "+"Crear libro";
-		    
-		    this.agregarTab("Crear libro", menuSeleccionado, msjUbicacion);
-			
-		} else if ( menuSeleccionado.equals("userManagement") )  {
-			
-			msjUbicacion = "Estas en: "+"Gestion de usuarios";
-
-		    this.agregarTab("Gestion de usuarios", menuSeleccionado, msjUbicacion);
-		    
-		} else {
-			this.agregarTab(menuSeleccionado, menuSeleccionado.toLowerCase(), msjUbicacion);
-		}
-	    
-	}
-	
-	
-	
-	public void agregarTab(String title, String content, String path) {
+		String msjUbicacion = this.menuService.ubicacionMenu(idMenu);
 		
 		TabItemDTO newTab = TabItemDTO.builder()
-									  .title(title)
-									  .content("/BussinessView/"+content+"/"+content+"View.xhtml")
-									  .path(path)
+									  .title(nombreMenu)
+									  .content(rutaUrl+File.separator+nombreDocumento+".xhtml")
+									  .path(msjUbicacion)
 									  .build();
 		
 		this.lstTabs.add(newTab);
@@ -108,5 +92,5 @@ public class WelcomeView implements Serializable {
 	public void cerrarSesion() {
 		System.out.println("Se ha cerrado sesion correctamente");
 	}
-	
+
 }
