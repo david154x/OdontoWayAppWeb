@@ -1,15 +1,29 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 				xmlns:ui="jakarta.faces.facelets"
-				xmlns:f="jakarta.faces.core"
 				xmlns:h="jakarta.faces.html"
-				xmlns:p="http://primefaces.org/ui">
-				
-	<style>
-	
-	</style>
+				xmlns:f="jakarta.faces.core"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/moduloTemplate.xhtml">
 
-	<div class="genericBox">
+	<ui:param name="view" value="#{crearRolView}" />
+	<ui:param name="idLegend" value="Nuevo Rol" />
 	
-	</div>
+	<ui:define name="contenidoModulo">
 	
+		<p:panelGrid columns="2">
+		
+			<p:outputLabel value="Nombre de rol:" style="font-weight: bold;" />
+			<p:inputText value="#{crearRolView.nombreRol}" />
+			
+			<p:outputLabel value="Descripcion:" style="font-weight: bold; "  />
+			<p:inputTextarea value="#{crearRolView.descripcionRol}" cols="30" rows="5" autoResize="false" style="resize: none;" />
+		
+		</p:panelGrid>
+		
+		<div align="right">
+			<p:commandButton styleClass="btnCrear" value="Crear Rol" icon="fa fa-save" actionListener="#{crearRolView.guardarRol()}" />		
+		</div>
+		
+	</ui:define>
+
 </ui:composition>

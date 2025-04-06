@@ -1,3 +1,10 @@
-C:\Users\david\workspace\OdontoWayAppWeb\src\main\java\com\drr\odontoway\view\core\dto\TabItemDTO.java
-C:\Users\david\workspace\OdontoWayAppWeb\src\main\java\com\drr\odontoway\view\core\MenuView.java
-C:\Users\david\workspace\OdontoWayAppWeb\src\main\java\com\drr\odontoway\view\core\WelcomeView.java
+/home/rebornphoenix/workspace/OdontoWayAppWeb/src/main/java/com/drr/odontoway/view/administracion/gestionDeUsuarios/crearUsuarioView.java
+/home/rebornphoenix/workspace/OdontoWayAppWeb/src/main/java/com/drr/odontoway/view/administracion/gestionDeUsuarios/roles/ConsultarRolView.java
+/home/rebornphoenix/workspace/OdontoWayAppWeb/src/main/java/com/drr/odontoway/view/administracion/gestionDeUsuarios/roles/CrearRolView.java
+/home/rebornphoenix/workspace/OdontoWayAppWeb/src/main/java/com/drr/odontoway/view/administracion/gestionDeUsuarios/roles/ModificarRolView.java
+/home/rebornphoenix/workspace/OdontoWayAppWeb/src/main/java/com/drr/odontoway/view/core/ContentView.java
+/home/rebornphoenix/workspace/OdontoWayAppWeb/src/main/java/com/drr/odontoway/view/core/MenuView.java
+/home/rebornphoenix/workspace/OdontoWayAppWeb/src/main/java/com/drr/odontoway/view/core/SessionDataView.java
+/home/rebornphoenix/workspace/OdontoWayAppWeb/src/main/java/com/drr/odontoway/view/core/WelcomeView.java
+/home/rebornphoenix/workspace/OdontoWayAppWeb/src/main/java/com/drr/odontoway/view/core/dto/TabItemDTO.java
+/home/rebornphoenix/workspace/OdontoWayAppWeb/src/main/java/com/drr/odontoway/view/util/JsfUtils.java

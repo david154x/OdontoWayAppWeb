@@ -244,6 +244,10 @@ body {
 	color: #333;
 }
 
+.dynamicContent .btnCloseTab:hover .fa {
+	color: white !important;
+}
+
 .dynamicContent .contentPath .ui-tabs-panels {
 	height: 100% !important;
 	width: 100% !important;
@@ -291,16 +295,14 @@ body {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 9999;
     width: 300px;
 }
 
 .genericBox {
 	min-height: 100%;
 	padding: 10px;
-	/*
-	background: #fffcf7;
-	*/
+	background: #f5f7fa;
+	border: 1px solid #e0e0e0 !important;
 }
 
 #pnlManagement {
@@ -308,19 +310,24 @@ body {
 	min-height: 100% !important;
 }
 
-.ui-dialog {
-    z-index: 1000 !important;
-}
-
-.btnCreate {
+.btnCrear {
 	background: #6bf929 !important;
 	border: none !important;
-	border-radius: 50px !important;
+	border-radius: 10px !important;
 	transition: transform 0.3s ease;
+	color: black !important;
 }
 
-.btnCreate:hover {
-	background: #ff8b00 !important;
+.btnCrear .fa {
+	color: black !important;
+}
+
+.btnCrear:hover {
+	background: #7091E6 !important;
+}
+
+.btnCrear:hover .fa, .btnCrear:hover span {
+	color: white !important;
 }
 
 .btnSearch {
@@ -358,4 +365,47 @@ body {
 
 .selectUcompensar .ui-selectonemenu-trigger {
 	display: none !important;
+}
+
+.btnAccesModul {
+	border-radius: 10px !important;
+	border: none !important;
+	color: black !important;
+  	transition: background 0.3s ease;
+  	width: 25px !important;
+  	height: 25px !important; 
+}
+
+.btnAccesModul .fa {
+	color: #FFC300 !important;
+}
+
+.btnAccesModul:hover {
+	background: #7091E6 !important;
+}
+
+.btnAccesModul:hover .fa {
+	color: white !important;
+}
+
+/* COLORES DEFINIDOS PARA LA APLICACION */
+.bg-ok {
+  background: #6bf929 !important;
+}
+
+.bg-no {
+  background: #FF0000 !important;
+}
+
+.tx-ok {
+  color: #6bf929 !important;
+}
+
+.tx-no {
+  color: #FF0000 !important;
+}
+
+.textArea .ui-inputtextarea {
+	overflow: auto !important;
+    resize: none !important;
 }

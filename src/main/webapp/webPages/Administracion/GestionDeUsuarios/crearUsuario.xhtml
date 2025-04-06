@@ -3,12 +3,17 @@
 				xmlns:f="jakarta.faces.core"
 				xmlns:h="jakarta.faces.html"
 				xmlns:p="http://primefaces.org/ui">
-				
+	
 	<style>
 	
 	</style>
 
 	<div class="genericBox">
+	
+		<p:growl id="mensajeUsuario" life="1000" showSummary="true" showDetail="true" />
+		
+		<p:commandButton actionListener="#{crearUsuarioView.mensajeFijo()}" value="mensaje Fijo" />
+		<p:commandButton actionListener="#{crearUsuarioView.mensajeTemporal()}" value="mensaje Temporal" />
 	
 	</div>
 	

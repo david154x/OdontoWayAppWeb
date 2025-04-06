@@ -9,14 +9,14 @@
 	<div id="pnlMenu" class="menu">
 		
 		<h:form>
-			<p:panelMenu id="pnlMenu" model="#{menuView.menuModel}" toggleable="true"   />
+			<p:panelMenu id="pnlMenu" model="#{menuView.menuModel}" />
 		</h:form>
 
 	</div>
 	
 	<h:form id="formPrincipal">
  	
- 		<p:growl id="msgGeneric" showSummary="true" showDetail="true" sticky="true" styleClass="custom-growl" />
+ 		<p:growl id="msgGeneric" showSummary="true" showDetail="true" life="10000" styleClass="custom-growl" />
 
 		<div class="dynamicContent">
 			

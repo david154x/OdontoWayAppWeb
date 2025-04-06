@@ -7,8 +7,10 @@
 				xmlns:p="http://primefaces.org/ui">
 
 	<div id="pnlMenu" class="menu">
-
-		<p:menu id="pnlMenu" model="#{menuView.menuModel}" toggleable="true" />
+		
+		<h:form>
+			<p:panelMenu id="pnlMenu" model="#{menuView.menuModel}" />
+		</h:form>
 
 	</div>
 	
@@ -18,21 +20,21 @@
 
 		<div class="dynamicContent">
 			
-			<p:tabView id="tabViewContent" class="contentPath" effect="fade" effectDuration="low" activeIndex="#{welcomeView.activeTab}">
+			<p:tabView id="tabViewContent" class="contentPath" effect="fade" effectDuration="low" activeIndex="#{contentView.activeTab}">
 			
-				<c:forEach items="#{welcomeView.lstTabs}" var="tab">
+				<c:forEach items="#{contentView.lstTabs}" var="tab">
 				
 					<p:tab id="tabId" class="contentPath" title="#{tab.title}">
 					
 						<div class="breadCrumbs">
 	
-							<p:commandButton class="btnCloseTab" icon="fa fa-times" actionListener="#{welcomeView.closeTab(tab)}" rendered="#{welcomeView.showButtonCloseAll(tab)}" />
-		
 							<p:breadCrumb id="BreadCrumb">
 								<p:menuitem value="Home" />
 								<p:menuitem value="#{tab.path}" />
 							</p:breadCrumb>
 	
+							<p:commandButton class="btnCloseTab" icon="fa fa-times" actionListener="#{contentView.closeTab(tab)}" rendered="#{contentView.showButtonCloseAll(tab)}" />
+							
 						</div>
 							
 						<div class="pathContent">
