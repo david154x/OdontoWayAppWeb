@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+				
+	<ui:param name="view" value="#{crearPerfilView}" />
+	<ui:param name="idLegend" value="Modulo Crear Perfil" />
+	<ui:param name="idFieldSet" value="flCrearPerfil" />
+	<ui:param name="iconModul" value="fa-solid fa-user-tie" />
+	
+	<ui:define name="contenidoModulo">
+
+		<div align="center">
+
+			<p:panelGrid id="pnlCrearPerfil" columns="2">
+
+				<p:outputLabel value="Nombre del Perfil *" style="font-weight: bold;" />
+				<p:inputText value="#{crearPerfilView.perfilParaCrear.nombrePerfil}" style="width: 300px; text-transform: uppercase;" >
+					<p:ajax listener="#{crearPerfilView.validarSiYaExisteNombrePerfil()}" />
+				</p:inputText>
+
+				<p:outputLabel value="Deescripcion *" style="font-weight: bold; " />
+				<p:inputTextarea value="#{crearPerfilView.perfilParaCrear.descripcionPerfil}" cols="30" rows="3" autoResize="false" style="resize: none;">
+					<p:ajax listener="#{crearPerfilView.validarDatosCompletos()}" />
+				</p:inputTextarea>
+
+			</p:panelGrid>
+			
+			<div align="right">
+				<p:commandButton id="btnCrearPerfil" styleClass="btnCrear" value="Crear Perfil" icon="fa fa-save" actionListener="#{crearPerfilView.crearPerfil()}" disabled="#{crearPerfilView.deshabilitarBtnCrear}" />		
+			</div>
+			
+		</div>
+		
+		<br />
+
+	</ui:define>
+		
+</ui:composition>

@@ -1,0 +1,158 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+	
+	<ui:param name="view" value="#{crearUsuarioView}" />
+	<ui:param name="idLegend" value="Modulo Crear Usuario" />
+	<ui:param name="idFieldSet" value="flCrearUsuario" />
+	<ui:param name="iconModul" value="fa fa-user" />
+	
+	<ui:define name="contenidoModulo">
+	
+		<p:fieldset >
+		
+			<div align="center">
+				<h1>Datos Personales</h1>
+			</div>
+			
+			<br />
+			
+			<p:panelGrid id="pnlDatosPersonales" columns="4">
+				
+				<p:outputLabel value="Numero documento *"  style="font-weight: bold;" />
+				<p:inputNumber value="#{crearUsuarioView.usuarioParaCrear.numeroDocumentoUsuario}"
+				               placeholder="Ej: 1039786987"
+				               thousandSeparator=""
+				               emptyValue="null"
+				               decimalPlaces="0">
+					<p:ajax listener="#{crearUsuarioView.validarNumeroDocumento()}" process="pnlDatosPersonales" />               
+				</p:inputNumber>
+				
+				<p:column />
+				<p:column />
+				
+				<p:outputLabel value="Primer Nombre *"  style="font-weight: bold;" />
+				<p:inputText value="#{crearUsuarioView.usuarioParaCrear.primerNombre}" style="width: 300px; text-transform: uppercase;"
+							 disabled="#{crearUsuarioView.deshabilitarNombresYApellidosUsuario()}" />
+				
+				<p:outputLabel value="Segundo Nombre"  style="font-weight: bold;" />
+				<p:inputText value="#{crearUsuarioView.usuarioParaCrear.segundoNombre}" style="width: 300px; text-transform: uppercase;"
+							 disabled="#{crearUsuarioView.deshabilitarNombresYApellidosUsuario()}" />
+				
+				<p:outputLabel value="Primer Apellido *"  style="font-weight: bold;" />
+				<p:inputText value="#{crearUsuarioView.usuarioParaCrear.primerApellido}" style="width: 300px; text-transform: uppercase;"
+							 disabled="#{crearUsuarioView.deshabilitarNombresYApellidosUsuario()}" />
+				
+				<p:outputLabel value="Segundo Apellido"  style="font-weight: bold;" />
+				<p:inputText value="#{crearUsuarioView.usuarioParaCrear.segundoApellido}" style="width: 300px; text-transform: uppercase;"
+							 disabled="#{crearUsuarioView.deshabilitarNombresYApellidosUsuario()}" />
+				
+				<p:outputLabel value="Pais Origen *"  style="font-weight: bold;" />
+				<p:selectOneMenu value="#{crearUsuarioView.usuarioParaCrear.paisAsignado.idPais}" style="width: 300px" styleClass="no-arrow"
+								 disabled="#{crearUsuarioView.numeroDocumentoPermitido}">
+					
+					<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{crearUsuarioView.lstPaisesDisponibles}"
+								   var="opcion" itemLabel="#{opcion.nombrePais}" itemValue="#{opcion.idPais}" />
+					<p:ajax listener="#{crearUsuarioView.cargarCiudadesXPais()}" process="pnlDatosPersonales" />
+					
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Ciudad Nacimiento *"  style="font-weight: bold;" />
+				<p:selectOneMenu id="ciudadNacimiento" value="#{crearUsuarioView.usuarioParaCrear.ciudadAsignada.idCiudad}" style="width: 300px" styleClass="no-arrow"
+								 disabled="#{crearUsuarioView.deshabilitarSeleccionCiudad}" >
+					
+					<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{crearUsuarioView.lstCiudadesDisponibles}"
+								   var="opcion" itemLabel="#{opcion.nombreCiudad}" itemValue="#{opcion.idCiudad}" />
+					
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Direccion residencia *"  style="font-weight: bold;" />
+				<p:inputText value="#{crearUsuarioView.usuarioParaCrear.direccion}" style="width: 300px; text-transform: uppercase;" placeholder="Ej: CL 1ra # 78- 10"
+							 disabled="#{crearUsuarioView.numeroDocumentoPermitido}" />
+				
+				<p:outputLabel value="Num. Teléfono *" style="font-weight: bold;" />
+				<p:inputNumber value="#{crearUsuarioView.usuarioParaCrear.telefono}"
+				               minValue="0"
+				               maxValue="9999999999"
+				               placeholder="Ej: 3107890987"
+				               thousandSeparator=""
+				               emptyValue="null"
+				               decimalPlaces="0"
+				               disabled="#{crearUsuarioView.numeroDocumentoPermitido}" />
+				
+				<p:outputLabel value="Email *"  style="font-weight: bold;" />
+				<p:inputText id="emailUsuarioNuevo" value="#{crearUsuarioView.usuarioParaCrear.email}" style="width: 300px;" placeholder="Ej: miEmail@email.com"
+							 disabled="#{crearUsuarioView.numeroDocumentoPermitido}" >
+					<p:ajax listener="#{crearUsuarioView.validarEmailValido()}" process="pnlDatosPersonales" />
+				</p:inputText>
+				
+				<p:outputLabel value="Fecha de Nacimiento *" style="font-weight: bold;" />
+				<p:calendar value="#{crearUsuarioView.usuarioParaCrear.fechaNacimiento}"
+				            pattern="dd-MM-yyyy"
+				            navigator="true"
+				            maxdate="#{crearUsuarioView.fechaMaximaNacimiento()}"
+				            readonlyInput="true"
+				            placeholder="dd-mm-aaaa"
+				            disabled="#{crearUsuarioView.numeroDocumentoPermitido}">
+				</p:calendar>
+				
+				<p:outputLabel value="Género *" style="font-weight: bold;" />
+				<p:selectOneMenu id="generoUsuario" value="#{crearUsuarioView.usuarioParaCrear.genero}" style="width: 300px" styleClass="no-arrow"
+								 disabled="#{crearUsuarioView.numeroDocumentoPermitido}" >
+					
+					<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+					<f:selectItem itemLabel="Masculino" itemValue="M" />
+					<f:selectItem itemLabel="Femenino" itemValue="F" />
+					<f:selectItem itemLabel="Otro" itemValue="O" />
+					<p:ajax listener="#{crearUsuarioView.confirmarDatosCompletos()}" process="pnlDatosPersonales" />
+					
+				</p:selectOneMenu>
+
+			</p:panelGrid>
+			
+		</p:fieldset>
+		
+		<br />
+		
+		<p:fieldset id="flDatosUsuario" legend="Datos de usuario" rendered="#{crearUsuarioView.verDatosUsuario}">
+		
+			<p:panelGrid id="pnlDatosUsuario" columns="4" >
+				
+				<p:outputLabel value="Nombre de usuario asignado:" style="font-weight: bold;" />
+				<p:outputLabel value="#{crearUsuarioView.usuarioParaCrear.nombreUsuario}" />
+				
+				<p:outputLabel value="Rol *" style="font-weight: bold;" />
+				<p:selectOneMenu value="#{crearUsuarioView.usuarioParaCrear.rolAsignado.idRol}" style="width: 300px" styleClass="no-arrow" >
+					
+					<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{crearUsuarioView.lstRolesDisponibles}"
+								   var="opcion" itemLabel="#{opcion.nombreRol}" itemValue="#{opcion.idRol}" />
+								   
+					<p:ajax listener="#{crearUsuarioView.rolSeleccionado()}" process="pnlDatosPersonales pnlDatosUsuario" />
+						
+				</p:selectOneMenu>
+							
+			</p:panelGrid>
+		
+		</p:fieldset>
+		
+		<br />
+		
+		<div align="right">
+		
+			<p:commandButton id="btnCrearUsuario" styleClass="btnCrear"
+							 value="Crear Usuario" icon="fa fa-save"
+							 actionListener="#{crearUsuarioView.crearUsuario()}"
+							 disabled="#{crearUsuarioView.deshabilitarBtnCrear}" />
+		</div>
+		
+		<br />
+		
+	</ui:define>
+	
+</ui:composition>

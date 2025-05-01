@@ -1,5 +1,6 @@
 package com.drr.odontoway.view.util;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.primefaces.PrimeFaces;
 
 import com.drr.odontoway.view.core.SessionDataView;
@@ -16,7 +17,7 @@ public class JsfUtils {
 	private FacesContext fc;
 	
 	@Inject
-	private SessionDataView sessionDataView; 
+	private SessionDataView sessionDataView;
 	
 	public void addMsgInfo(String msg) {
 		this.fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", msg) );
@@ -80,11 +81,35 @@ public class JsfUtils {
 		return null;
 	}
 	
+	public Integer idMenu() {
+		try {
+			
+			if ( this.sessionDataView.getIdMenu() != null )
+				return this.sessionDataView.getIdMenu();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public String nombreDeModulo() {
 		try {
 			
 			if ( this.sessionDataView.getNombreModulo() != null && !this.sessionDataView.getNombreModulo().isBlank() )
 				return this.sessionDataView.getNombreModulo();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String nombreDeClaseView() {
+		try {
+			
+			if ( this.sessionDataView.getNombreClaseView() != null && !this.sessionDataView.getNombreClaseView().isBlank() )
+				return this.sessionDataView.getNombreClaseView();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,6 +161,22 @@ public class JsfUtils {
 			e.printStackTrace();
 		}
 		return Boolean.FALSE;
+	}
+	
+	public String nombreUsuarioLogeado() {
+		return this.sessionDataView.getNombreUsuario();
+	}
+	
+	public String claveUsuarioGenerica() {
+		String valorEncriptado = null;
+		try {
+			
+			valorEncriptado = BCrypt.hashpw("estandar", BCrypt.gensalt());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return valorEncriptado;
 	}
 	
 }

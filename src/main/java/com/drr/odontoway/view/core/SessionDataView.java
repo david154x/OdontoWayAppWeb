@@ -2,7 +2,6 @@ package com.drr.odontoway.view.core;
 
 import java.io.Serializable;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import lombok.Getter;
@@ -21,15 +20,24 @@ public class SessionDataView implements Serializable {
 	private String rolDeUsuario;
 	
 	@Getter @Setter
+	private String generoUsuario;
+	
+	@Getter @Setter
 	private String estadoSistema;
+	
+	@Getter @Setter
+	private Integer idMenu;
 	
 	@Getter @Setter
 	private String nombreModulo;
 	
-	@PostConstruct
-	private void init() {
-		this.nombreUsuario = "David Rojas Rodriguez";
-		this.rolDeUsuario = "Administrador";
-    }
-
+	@Getter @Setter
+	private String nombreClaseView;
+	
+	@Getter @Setter
+	private Boolean saludarUsuario;
+	
+	@Getter @Setter
+	private Boolean cambiarCredenciales;
+	
 }

@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.htjml"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+				
+	<ui:param name="view" value="#{perfilesUsuarioView}" />
+	<ui:param name="idLegend" value="Modulo Perfiles Usuario" />
+	<ui:param name="idFieldSet" value="flPerfilesUsuario" />
+	<ui:param name="iconModul" value="fa fa-user" />
+	
+	<ui:define name="contenidoModulo">
+	
+		<h:form id="formPerfilesUsuarios">
+	
+			<p:panelGrid columns="2" >
+				
+				<p:outputLabel value="Busqueda usuario:" />
+				<p:autoComplete id="buscarUsuario" 
+	                        	value="#{perfilesUsuarioView.usuarioBusqueda}" 
+	                        	completeMethod="#{perfilesUsuarioView.autocompletarUsuarios}" 
+	                        	var="usuario" 
+	                        	itemLabel="#{usuario.nombreUsuario}" 
+	                        	itemValue="#{usuario}"
+	                        	converter="usuarioConverter"
+	                        	forceSelection="true">
+	                        	
+	           		<p:ajax event="itemSelect" listener="#{perfilesUsuarioView.cargarPerfilesUsuario()}" process="@this" />
+	           		            	
+	            </p:autoComplete>
+				
+			</p:panelGrid>
+			
+			<br />
+	
+			<p:pickList id="pickListPerfiles" 
+			            value="#{perfilesUsuarioView.perfilesDualList}" 
+			            var="perfil" 
+			            itemLabel="#{perfil.idPerfil} - #{perfil.nombrePerfil}" 
+			            itemValue="#{perfil}" 
+			            converter="perfilConverter"
+			            showSourceControls="true" 
+			            showTargetControls="true"
+			            showCheckbox="true" 
+			            responsive="true" 
+			            filter="true" 
+			            filterMatchMode="contains">
+			    <f:facet name="sourceCaption">Disponibles</f:facet>
+            	<f:facet name="targetCaption">Asignados</f:facet>
+			</p:pickList>
+			            
+			<br />
+			<p:separator />
+			<br />
+			
+			<div align="right">
+
+				<p:commandButton id="btnGuardarCambios" value="Guardar cambios" process="@this pickListPerfiles"
+								 title="Guardar cambios" styleClass="btnUpd"
+								 icon="fa fa-pencil-square" actionListener="#{perfilesUsuarioView.guardarPerfilesAsignadosAlUsuario()}"
+								  />
+			</div>
+			
+			<br />
+			
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>

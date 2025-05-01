@@ -1,0 +1,118 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+				
+	<ui:param name="view" value="#{consultarPaisView}" />
+	<ui:param name="idLegend" value="Modulo consulta de paises" />
+	<ui:param name="idFieldSet" value="flPaisXFiltro" />
+	<ui:param name="iconModul" value="fa fa-globe" />
+	
+	<ui:define name="contenidoModulo">
+	
+		<div align="center">
+		
+			 <!-- Filtro principal -->
+	        <p:panel styleClass="filtro-principal" style="margin-bottom: 20px; width: 80%;">
+	            <p:outputLabel value="Filtrar por:" style="font-weight: bold; margin-right: 10px;" />
+	            
+	            <p:selectCheckboxMenu value="#{consultarPaisView.filtroSeleccionado}"
+	                                  style="width: 510px"
+	                                  multiple="true"
+	                                  emptyLabel="Seleccione"
+	                                  updateLabel="true" styleClass="no-arrow" showSelectAll="false" filter="false">
+	                <f:selectItems value="#{consultarPaisView.lstTiposDefiltro}" var="opcion"
+	                               itemLabel="#{opcion}" itemValue="#{opcion}" />
+					<p:ajax event="toggleSelect" listener="#{consultarPaisView.onToggleSelect}"/>
+	                <p:ajax listener="#{consultarPaisView.asignarFiltro()}" />
+	            </p:selectCheckboxMenu>
+	            
+	        </p:panel>
+
+			<p:panelGrid id="pnlConsultarPais" columns="4"
+				style="width: 80%;">
+
+				<p:outputLabel value="Nombre:"
+							   rendered="#{consultarPaisView.verNombre}"
+							   style="font-weight: bold;" />
+				<p:inputText value="#{consultarPaisView.consultaFiltroPais.nombrePais}"
+							 rendered="#{consultarPaisView.verNombre}"
+							 style="width: 100%;" >
+				</p:inputText>
+
+				<p:outputLabel value="Estado:"
+							   rendered="#{consultarPaisView.verEstado}"
+							   style="font-weight: bold;" />
+				<p:selectOneMenu value="#{consultarPaisView.consultaFiltroPais.idEstado}"
+								 rendered="#{consultarPaisView.verEstado}"
+								 style="width: 100%;"
+								 styleClass="no-arrow">
+					<f:selectItem itemLabel="Seleccione" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItem itemLabel="Activo" itemValue="A" />
+					<f:selectItem itemLabel="Inactivo" itemValue="I" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Fecha:"
+					rendered="#{consultarPaisView.verFecha}" style="font-weight: bold;" />
+				<p:datePicker selectionMode="range"
+					value="#{consultarPaisView.consultaFiltroPais.lstFechasRango}" readonlyInput="true"
+					rendered="#{consultarPaisView.verFecha}" style="width: 100%;" />
+			</p:panelGrid>
+
+			<!-- Botón de acción -->
+			<div align="right">
+				<p:commandButton value="Consultar" icon="pi pi-search" styleClass="btnSearch" actionListener="#{consultarPaisView.consultarPaisXFiltro()}" rendered="#{!consultarPaisView.verBotonConsultarTodo}" />
+				<p:commandButton value="Consultar Todo" icon="pi pi-search" styleClass="btnSearch" actionListener="#{consultarPaisView.consultarTodosLosPaises()}" rendered="#{consultarPaisView.verBotonConsultarTodo}" />
+			</div>
+
+		</div>
+		
+		<br />
+		<p:dataTable id="dtPaisXFiltro"
+			value="#{consultarPaisView.lstResultadoFiltro}" var="resultado"
+			rendered="#{consultarPaisView.verResultados}"
+			style="margin: auto; width: 80%;" paginator="true" rows="5"
+			paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,20,50"
+			currentPageReportTemplate="Mostrando {startRecord} - {endRecord} de {totalRecords} registros" >
+			
+			<f:facet name="header">
+		        <h1 style="text-align: center; font-weight: bold; font-size: 18px;">Paises encontrados</h1>
+		    </f:facet>
+
+			<p:column headerText="Código Pais" style="text-align: center;"
+					  filterBy="#{resultado.idPais}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idPais}" />
+			</p:column>
+
+			<p:column headerText="Nombre" style="text-align: center;"
+					  filterBy="#{resultado.nombrePais}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.nombrePais}" />
+			</p:column>
+			
+			<p:column headerText="Nombre corto" style="text-align: center;"
+					  filterBy="#{resultado.nombreCorto}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.nombreCorto}" />
+			</p:column>
+
+			<p:column headerText="Fecha creación" style="text-align: center;"
+					  filterBy="#{resultado.fechaCreacion}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.fechaCreacion}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="Estado" style="text-align: center;"
+					  filterBy="#{resultado.idEstado}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idEstado}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</ui:define>
+	
+</ui:composition>

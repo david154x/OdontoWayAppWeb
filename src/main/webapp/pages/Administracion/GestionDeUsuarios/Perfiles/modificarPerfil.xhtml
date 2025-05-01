@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+				
+	<ui:param name="view" value="#{modificarPerfilView}" />
+	<ui:param name="idLegend" value="Modulo modificar perfiles" />
+	<ui:param name="idFieldSet" value="flModificarPerfil" />
+	<ui:param name="iconModul" value="fa-solid fa-user-tie" />
+
+	<ui:define name="contenidoModulo">
+	
+		<div align="right">
+			<p:commandButton value="actualizar información" icon="fa fa-retweet" styleClass="btnRefresh" actionListener="#{modificarPerfilView.refrescarTodosLosPerfiles()}" />
+		</div>
+		
+		<br />
+	
+		<p:dataTable id="dtTodosLosPerfiles"
+			value="#{modificarPerfilView.lstResultados}" var="resultado"
+			style="margin: auto; width: 98%;" paginator="true" rows="5"
+			paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,20,50"
+			currentPageReportTemplate="Mostrando {startRecord} - {endRecord} de {totalRecords} registros" >
+			
+			<f:facet name="header">
+		        <h1 style="text-align: center; font-weight: bold; font-size: 18px;">Perfiles Actuales</h1>
+		    </f:facet>
+
+			<p:column headerText="Cod. Perfil" style="text-align: center;" width="80"
+					  filterBy="#{resultado.idPerfil}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idPerfil}" />
+			</p:column>
+
+			<p:column headerText="Nombre" style="text-align: center;"
+					  filterBy="#{resultado.nombrePerfil}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.nombrePerfil}" />
+			</p:column>
+
+			<p:column headerText="Descripción" style="text-align: center;"
+					  filterBy="#{resultado.descripcionPerfil}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.descripcionPerfil}" />
+			</p:column>
+
+			<p:column headerText="Fecha creación" style="text-align: center;"
+					  filterBy="#{resultado.fechaCreacion}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.fechaCreacion}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="Estado" style="text-align: center;" width="50" >
+				<p:toggleSwitch value="#{resultado.activo}">
+					<p:ajax listener="#{modificarPerfilView.cambiarEstado(resultado)}" />
+				</p:toggleSwitch>
+			</p:column>
+			
+			<p:column style="text-align: center;" width="35">
+				<p:commandButton title="Modificar Rol" icon="fa fa-cog" styleClass="btnUpd" actionListener="#{modificarPerfilView.abrirDialogoModificarRegistro(resultado)}" />
+			</p:column>
+
+		</p:dataTable>
+		
+		<br />
+		
+		<ui:include src="/pages/Administracion/GestionDeUsuarios/popups/popupModificarPerfil.xhtml" />
+		
+	</ui:define>
+		
+</ui:composition>

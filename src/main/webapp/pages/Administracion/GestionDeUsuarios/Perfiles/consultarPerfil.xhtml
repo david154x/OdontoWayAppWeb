@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:h="jakarta.faces.html"
+				xmlns:f="jakarta.faces.core"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+
+	<ui:param name="view" value="#{consultarPerfilView}" />
+	<ui:param name="idLegend" value="Modulo consultar perfiles" />
+	<ui:param name="idFieldSet" value="flConsultarPerfiles" />
+	<ui:param name="iconModul" value="fa-solid fa-user-tie" />
+
+	<ui:define name="contenidoModulo">
+	
+		<div align="center">
+		
+			 <!-- Filtro principal -->
+	        <p:panel styleClass="filtro-principal" style="margin-bottom: 20px; width: 80%;">
+	            <p:outputLabel value="Filtrar por:" style="font-weight: bold; margin-right: 10px;" />
+	            
+	            <p:selectCheckboxMenu value="#{consultarPerfilView.filtroSeleccionado}"
+	                                  style="width: 510px"
+	                                  multiple="true"
+	                                  emptyLabel="Seleccione"
+	                                  updateLabel="true" styleClass="no-arrow" showSelectAll="false" filter="false">
+	                <f:selectItems value="#{consultarPaisView.lstTiposDefiltro}" var="opcion"
+	                               itemLabel="#{opcion}" itemValue="#{opcion}" />
+					<p:ajax event="toggleSelect" listener="#{consultarPerfilView.onToggleSelect}"/>
+	                <p:ajax listener="#{consultarPerfilView.asignarFiltro}" update="@form" />
+	            </p:selectCheckboxMenu>
+	            
+	        </p:panel>
+
+			<p:panelGrid id="pnlConsultarPerfil" columns="4"
+				style="width: 80%;">
+
+				<p:outputLabel value="Nombre:"
+					rendered="#{consultarPerfilView.verNombre}" style="font-weight: bold;" />
+				<p:inputText value="#{consultarPerfilView.consultaFiltroPerfil.nombrePerfil}"
+					rendered="#{consultarPerfilView.verNombre}" style="width: 100%;">
+				</p:inputText>
+
+				<p:outputLabel value="Descripción:"
+					rendered="#{consultarPerfilView.verDescripcion}"
+					style="font-weight: bold;" />
+				<p:inputTextarea
+					value="#{consultarPerfilView.consultaFiltroPerfil.descripcionPerfil}"
+					rendered="#{consultarPerfilView.verDescripcion}" cols="30" rows="2"
+					autoResize="false" style="resize: none; width: 100%;" />
+
+				<p:outputLabel value="Estado:"
+					rendered="#{consultarPerfilView.verEstado}" style="font-weight: bold;" />
+				<p:selectOneMenu
+					value="#{consultarPerfilView.consultaFiltroPerfil.idEstado}"
+					rendered="#{consultarPerfilView.verEstado}" style="width: 100%;" styleClass="no-arrow">
+					<f:selectItem itemLabel="Seleccione" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItem itemLabel="Activo" itemValue="A" />
+					<f:selectItem itemLabel="Inactivo" itemValue="I" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Fecha:"
+					rendered="#{consultarPerfilView.verFecha}" style="font-weight: bold;" />
+				<p:datePicker selectionMode="range"
+					value="#{consultarPerfilView.consultaFiltroPerfil.lstFechasRango}" readonlyInput="true"
+					rendered="#{consultarPerfilView.verFecha}" style="width: 100%;" />
+			</p:panelGrid>
+
+			<!-- Botón de acción -->
+			<div align="right">
+				<p:commandButton value="Consultar" icon="pi pi-search" styleClass="btnSearch" actionListener="#{consultarPerfilView.consultarPerfilXFiltro()}" rendered="#{!consultarPerfilView.verBotonConsultarTodo}" />
+				<p:commandButton value="Consultar Todo" icon="pi pi-search" styleClass="btnSearch" actionListener="#{consultarPerfilView.consultarTodosLosPerfiles()}" rendered="#{consultarPerfilView.verBotonConsultarTodo}" />
+			</div>
+
+		</div>
+		
+		<br />
+		<p:dataTable id="dtPerfilXFiltro"
+			value="#{consultarPerfilView.lstResultadoFiltro}" var="resultado"
+			rendered="#{consultarPerfilView.verResultados}"
+			style="margin: auto; width: 98%;" paginator="true" rows="5"
+			paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,20,50"
+			currentPageReportTemplate="Mostrando {startRecord} - {endRecord} de {totalRecords} registros" >
+			
+			<f:facet name="header">
+		        <h1 style="text-align: center; font-weight: bold; font-size: 18px;">Perfiles encontrados</h1>
+		    </f:facet>
+			
+			<p:column headerText="Cod. Perfil" style="text-align: center;"
+					  filterBy="#{resultado.idPerfil}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idPerfil}" />
+			</p:column>
+
+			<p:column headerText="Nombre" style="text-align: center;"
+					  filterBy="#{resultado.nombrePerfil}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.nombrePerfil}" />
+			</p:column>
+
+			<p:column headerText="Descripción" style="text-align: center;"
+					  filterBy="#{resultado.descripcionPerfil}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.descripcionPerfil}" />
+			</p:column>
+
+			<p:column headerText="Fecha creación" style="text-align: center;"
+					  filterBy="#{resultado.fechaCreacion}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.fechaCreacion}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="Estado" style="text-align: center;"
+					  filterBy="#{resultado.idEstado}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idEstado}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</ui:define>
+
+</ui:composition>

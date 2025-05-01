@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/popupTemplate.xhtml">
+
+	<ui:param name="dialogId" value="dialogModificarCiudad" />
+	<ui:param name="widgetVar" value="wvModificarCiudad" />
+	<ui:param name="header" value="Modificar Ciudad" />
+	<ui:param name="modal" value="true" />
+	<ui:param name="draggable" value="false" />
+	<ui:param name="closable" value="true" />
+	<ui:param name="width" value="1000" />
+	<ui:param name="height" value="auto" />
+	<ui:param name="formId" value="formPopUpModificarCiudad" />
+
+	<ui:define name="contenidoDialogo">
+
+		<p:fieldset id="flDatosActuales" legend="Datos Actuales" toggleable="true">
+
+			<p:panelGrid columns="4">
+
+				<p:outputLabel value="Cod. Ciudad: " style="font-weight: bold;" />
+				<p:outputLabel value="#{modificarCiudadView.ciudadSeleccionadaParaModificar.idCiudad}" />
+
+				<p:outputLabel value="Estado Ciudad: " style="font-weight: bold;" />
+				<p:outputLabel value="#{modificarCiudadView.ciudadSeleccionadaParaModificar.idEstado}" />
+
+				<p:outputLabel value="Nombre Ciudad: " style="font-weight: bold;" />
+				<p:outputLabel value="#{modificarCiudadView.ciudadSeleccionadaParaModificar.nombreCiudad}" />
+
+				<p:outputLabel value="Nombre Corto: " style="font-weight: bold;" />
+				<p:outputLabel value="#{modificarCiudadView.ciudadSeleccionadaParaModificar.nombreCorto}" />
+
+				<p:outputLabel value="Nombre Pais: " style="font-weight: bold;" />
+				<p:outputLabel value="#{modificarCiudadView.ciudadSeleccionadaParaModificar.paisAsignado.nombrePais}" />
+
+			</p:panelGrid>
+
+		</p:fieldset>
+
+		<br />
+
+		<p:fieldset id="flNuevosValoresCiudad" legend="Nuevos valores">
+
+			<p:panelGrid columns="2">
+
+				<p:outputLabel value="Nuevo Pais: " style="font-weight: bold;" />
+				<p:selectOneMenu value="#{modificarCiudadView.ciudadConNuevosValores.paisAsignado.idPais}" style="width: 300px"
+					styleClass="no-arrow">
+					<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{modificarCiudadView.lstPaisesDisponibles}" var="opcion"
+						itemLabel="#{opcion.idPais} - #{opcion.nombrePais}" itemValue="#{opcion.idPais}" />
+					<p:ajax listener="#{modificarCiudadView.seleccionPais()}" process="flNuevosValoresCiudad" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Nuevo nombre Ciudad:" style="font-weight: bold;" />
+				<p:inputText value="#{modificarCiudadView.ciudadConNuevosValores.nombreCiudad}"
+					style="width: 300px; text-transform: uppercase;">
+					<p:ajax listener="#{modificarCiudadView.validarSiYaExisteCiudadXPais()}" process="flNuevosValoresCiudad" />
+				</p:inputText>
+
+				<p:outputLabel value="Nuevo nombre corto:" style="font-weight: bold; " />
+				<p:inputText value="#{modificarCiudadView.ciudadConNuevosValores.nombreCorto}"
+					style="width: 300px; text-transform: uppercase;" disabled="#{modificarCiudadView.deshabilitarInputNombreCorto}">
+					<p:ajax listener="#{modificarCiudadView.confirmarValoresAsignado()}" />
+				</p:inputText>
+
+			</p:panelGrid>
+
+		</p:fieldset>
+
+		<br />
+		<p:separator />
+		<br />
+
+		<div align="right">
+
+			<p:commandButton id="btnGuardarCambios" value="Guardar cambios" process="formPopUpModificarCiudad"
+							 title="Guardar cambios" styleClass="btnUpd"
+							 icon="fa fa-pencil-square" actionListener="#{modificarCiudadView.guardarCambios()}"
+							 disabled="#{modificarCiudadView.deshabilitarBtnModificar}" />
+		</div>
+
+	</ui:define>
+
+</ui:composition>

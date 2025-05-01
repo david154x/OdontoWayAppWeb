@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+				
+	<ui:param name="view" value="#{crearPaisView}" />
+	<ui:param name="idLegend" value="Modulo creación de paises" />
+	<ui:param name="idFieldSet" value="flCrearPais" />
+	<ui:param name="iconModul" value="fa fa-globe" />
+				
+	<ui:define name="contenidoModulo">
+
+		<div align="center">
+
+			<p:panelGrid id="pnlCrearPais" columns="2">
+
+				<p:outputLabel value="Nombre del pais:" style="font-weight: bold;" />
+				<p:inputText value="#{crearPaisView.paisParaCrear.nombrePais}" style="width: 300px; text-transform: uppercase;" >
+					<p:ajax listener="#{crearPaisView.validarSiYaExisteNombrePais()}" />
+				</p:inputText>
+
+				<p:outputLabel value="Nombre corto:" style="font-weight: bold; " />
+				<p:inputText value="#{crearPaisView.paisParaCrear.nombreCorto}" style="width: 100px; text-transform: uppercase;" maxlength="3">
+					<p:ajax listener="#{crearPaisView.validarNombreCorto()}" />
+				</p:inputText>
+
+			</p:panelGrid>
+			
+			<div align="right">
+				<p:commandButton id="btnCrearPais" styleClass="btnCrear" value="Crear pais" icon="fa fa-save" actionListener="#{crearPaisView.crearPais()}" disabled="#{crearPaisView.deshabilitarBtnCrear}" />		
+			</div>
+			
+		</div>
+		
+		<br />
+
+	</ui:define>
+		
+</ui:composition>

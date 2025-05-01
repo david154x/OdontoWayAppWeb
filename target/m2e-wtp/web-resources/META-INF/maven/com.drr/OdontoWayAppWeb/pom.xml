@@ -21,7 +21,7 @@
 		<!-- JAKARTA FACES -->
 		<jakarta-api-version>11.0.0-M5</jakarta-api-version>
 		<jakarta-faces-version>4.1.2</jakarta-faces-version>
-		<primefaces-version>14.0.0</primefaces-version>
+		<primefaces-version>14.0.12</primefaces-version>
 
 		<!--   UTILIDADES   -->
 		<lombok-version>1.18.36</lombok-version>

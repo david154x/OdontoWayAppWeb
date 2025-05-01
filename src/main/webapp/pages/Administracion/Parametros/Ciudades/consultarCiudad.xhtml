@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+				
+	<ui:param name="view" value="#{consultarCiudadView}" />
+	<ui:param name="idLegend" value="Modulo Consultar Ciudad" />
+	<ui:param name="idFieldSet" value="flConsultarCiudad" />
+	<ui:param name="iconModul" value="fa fa-university" />
+	
+	<ui:define name="contenidoModulo">
+	
+		<div align="center">
+		
+			 <!-- Filtro principal -->
+	        <p:panel styleClass="filtro-principal" style="margin-bottom: 20px; width: 80%;">
+	            <p:outputLabel value="Filtrar por:" style="font-weight: bold; margin-right: 10px;" />
+	            
+	            <p:selectCheckboxMenu value="#{consultarCiudadView.filtroSeleccionado}"
+	                                  style="width: 510px"
+	                                  multiple="true"
+	                                  emptyLabel="Seleccione"
+	                                  updateLabel="true" styleClass="no-arrow" showSelectAll="false" filter="false">
+	                <f:selectItems value="#{consultarCiudadView.lstTiposDefiltro}" var="opcion"
+	                               itemLabel="#{opcion}" itemValue="#{opcion}" />
+					<p:ajax event="toggleSelect" listener="#{consultarCiudadView.onToggleSelect}"/>
+	                <p:ajax listener="#{consultarCiudadView.asignarFiltro()}" />
+	            </p:selectCheckboxMenu>
+	            
+	        </p:panel>
+
+			<p:panelGrid id="pnlConsultarCiudad" columns="4"
+				style="width: 80%;">
+				
+				<p:outputLabel value="Pais: " style="font-weight: bold;" rendered="#{consultarCiudadView.verPais}" />
+				<p:selectOneMenu value="#{consultarCiudadView.consultaFiltroCiudad.paisAsignado.idPais}" style="width: 300px" styleClass="no-arrow"
+								 rendered="#{consultarCiudadView.verPais}">
+					<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{consultarCiudadView.lstPaisesActuales}" var="opcion"
+	                               itemLabel="#{opcion.idPais} - #{opcion.nombrePais}" itemValue="#{opcion.idPais}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Nombre:"
+							   rendered="#{consultarCiudadView.verNombre}"
+							   style="font-weight: bold;" />
+				<p:inputText value="#{consultarCiudadView.consultaFiltroCiudad.nombreCiudad}"
+							 rendered="#{consultarCiudadView.verNombre}"
+							 style="width: 100%;" />
+
+				<p:outputLabel value="Estado:"
+							   rendered="#{consultarCiudadView.verEstado}"
+							   style="font-weight: bold;" />
+				<p:selectOneMenu value="#{consultarCiudadView.consultaFiltroCiudad.idEstado}"
+								 rendered="#{consultarCiudadView.verEstado}"
+								 style="width: 100%;"
+								 styleClass="no-arrow">
+					<f:selectItem itemLabel="Seleccione" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItem itemLabel="Activo" itemValue="A" />
+					<f:selectItem itemLabel="Inactivo" itemValue="I" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Fecha:"
+					rendered="#{consultarCiudadView.verFecha}" style="font-weight: bold;" />
+				<p:datePicker selectionMode="range"
+					value="#{consultarCiudadView.consultaFiltroCiudad.lstFechasRango}" readonlyInput="true"
+					rendered="#{consultarCiudadView.verFecha}" style="width: 100%;" />
+			</p:panelGrid>
+
+			<!-- Botón de acción -->
+			<div align="right">
+				<p:commandButton value="Consultar" icon="pi pi-search" styleClass="btnSearch" actionListener="#{consultarCiudadView.consultarCiudadXFiltro()}" rendered="#{!consultarCiudadView.verBotonConsultarTodo}" />
+				<p:commandButton value="Consultar Todo" icon="pi pi-search" styleClass="btnSearch" actionListener="#{consultarCiudadView.consultarTodasLasCiudades()}" rendered="#{consultarCiudadView.verBotonConsultarTodo}" />
+			</div>
+
+		</div>
+		
+		<br />
+		<p:dataTable id="dtCiudadXFiltro"
+			value="#{consultarCiudadView.lstResultadoFiltro}" var="resultado"
+			rendered="#{consultarCiudadView.verResultados}"
+			style="margin: auto; width: 80%;" paginator="true" rows="5"
+			paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,20,50"
+			currentPageReportTemplate="Mostrando {startRecord} - {endRecord} de {totalRecords} registros" >
+			
+			<f:facet name="header">
+		        <h1 style="text-align: center; font-weight: bold; font-size: 18px;">Ciudades encontradas</h1>
+		    </f:facet>
+
+			<p:column headerText="Cod. Ciudad" style="text-align: center;"
+					  filterBy="#{resultado.idCiudad}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idCiudad}" />
+			</p:column>
+
+			<p:column headerText="Nombre Pais" style="text-align: center;"
+					  filterBy="#{resultado.paisAsignado.nombrePais}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.paisAsignado.nombrePais}" />
+			</p:column>
+			
+			<p:column headerText="Nombre Ciudad" style="text-align: center;"
+					  filterBy="#{resultado.nombreCiudad}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.nombreCiudad}" />
+			</p:column>
+			
+			<p:column headerText="Nombre corto" style="text-align: center;"
+					  filterBy="#{resultado.nombreCorto}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.nombreCorto}" />
+			</p:column>
+
+			<p:column headerText="Fecha creación" style="text-align: center;"
+					  filterBy="#{resultado.fechaCreacion}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.fechaCreacion}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="Estado" style="text-align: center;"
+					  filterBy="#{resultado.idEstado}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idEstado}" />
+			</p:column>
+
+		</p:dataTable>
+		
+	</ui:define>
+	
+</ui:composition>

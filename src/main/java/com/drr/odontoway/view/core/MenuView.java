@@ -44,7 +44,12 @@ public class MenuView {
 	        Map<Integer, DefaultSubMenu> subMenus = new HashMap<>();
 	        Map<Integer, DefaultSubMenu> modulos = new HashMap<>();
 
-	        if (lstMenuUsuario != null && !lstMenuUsuario.isEmpty()) {
+	        if ( lstMenuUsuario != null && !lstMenuUsuario.isEmpty() ) {
+	        	
+	        	lstMenuUsuario.sort(
+	        		    Comparator.comparing(MenuDTO::getIdMenu, Comparator.nullsLast(Integer::compareTo))
+	        		              .thenComparing(MenuDTO::getNumeroItem, Comparator.nullsLast(Integer::compareTo))
+	        		);
 
 	            lstMenuUsuario.forEach(x -> {
 
@@ -104,7 +109,11 @@ public class MenuView {
 	                	DefaultMenuItem item = DefaultMenuItem.builder()
 	                                                          .value(x.getNombreMenu())
 	                                                          .icon(x.getIconoMenu())
-	                                                          .command("#{contentView.cargarPaginaSeleccionada('" + x.getIdMenu() + "','" + x.getNombreMenu() + "', '" + x.getRutaUrl() + "', '" + x.getNombreDocumento() + "')}")
+	                                                          .command("#{contentView.cargarPaginaSeleccionada('" + x.getIdMenu() + "','" 
+	                                                        		  											  + x.getNombreMenu() + "', '"
+	                                                        		  											  + x.getRutaUrl() + "', '"
+	                                                        		  											  + x.getNombreDocumento() + "', '"
+	                                                          													  + x.getNombreClaseView() + "')}")
 	                                                          .update("formPrincipal:tabViewContent")
 	                                                          .build();
 
@@ -127,8 +136,6 @@ public class MenuView {
 	            });
 	            
 				List<DefaultSubMenu> lstMenuOrdenado = new ArrayList<>(modulos.values());
-
-				lstMenuOrdenado.sort(Comparator.comparing(DefaultSubMenu::getLabel));
 
 				for (DefaultSubMenu modulo : lstMenuOrdenado) {
 					this.menuModel.getElements().add(modulo);

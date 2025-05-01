@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:h="jakarta.faces.html"
+				xmlns:f="jakarta.faces.core"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+
+	<ui:param name="view" value="#{consultarRolView}" />
+	<ui:param name="idLegend" value="Modulo consultar roles" />
+	<ui:param name="idFieldSet" value="flRolXFiltro" />
+	<ui:param name="iconModul" value="fa fa-users" />
+
+	<ui:define name="contenidoModulo">
+	
+		<div align="center">
+		
+			 <!-- Filtro principal -->
+	        <p:panel styleClass="filtro-principal" style="margin-bottom: 20px; width: 80%;">
+	            <p:outputLabel value="Filtrar por:" style="font-weight: bold; margin-right: 10px;" />
+	            
+	            <p:selectCheckboxMenu value="#{consultarRolView.filtroSeleccionado}"
+	                                  style="width: 510px"
+	                                  multiple="true"
+	                                  emptyLabel="Seleccione"
+	                                  updateLabel="true" styleClass="no-arrow" showSelectAll="false" filter="false">
+	                <f:selectItems value="#{consultarPaisView.lstTiposDefiltro}" var="opcion"
+	                               itemLabel="#{opcion}" itemValue="#{opcion}" />
+					<p:ajax event="toggleSelect" listener="#{consultarRolView.onToggleSelect}"/>
+	                <p:ajax listener="#{consultarRolView.asignarFiltro}" update="@form" />
+	            </p:selectCheckboxMenu>
+	            
+	        </p:panel>
+
+			<p:panelGrid id="pnlConsultarRol" columns="4"
+				style="width: 80%;">
+
+				<p:outputLabel value="Nombre:"
+					rendered="#{consultarRolView.verNombre}" style="font-weight: bold;" />
+				<p:inputText value="#{consultarRolView.consultaFiltroRol.nombreRol}"
+					rendered="#{consultarRolView.verNombre}" style="width: 100%;">
+				</p:inputText>
+
+				<p:outputLabel value="Descripción:"
+					rendered="#{consultarRolView.verDescripcion}"
+					style="font-weight: bold;" />
+				<p:inputTextarea
+					value="#{consultarRolView.consultaFiltroRol.descripcionRol}"
+					rendered="#{consultarRolView.verDescripcion}" cols="30" rows="2"
+					autoResize="false" style="resize: none; width: 100%;" />
+
+				<p:outputLabel value="Estado:"
+					rendered="#{consultarRolView.verEstado}" style="font-weight: bold;" />
+				<p:selectOneMenu
+					value="#{consultarRolView.consultaFiltroRol.idEstado}"
+					rendered="#{consultarRolView.verEstado}" style="width: 100%;" styleClass="no-arrow">
+					<f:selectItem itemLabel="Seleccione" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItem itemLabel="Activo" itemValue="A" />
+					<f:selectItem itemLabel="Inactivo" itemValue="I" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Fecha:"
+					rendered="#{consultarRolView.verFecha}" style="font-weight: bold;" />
+				<p:datePicker selectionMode="range"
+					value="#{consultarRolView.consultaFiltroRol.lstFechasRango}" readonlyInput="true"
+					rendered="#{consultarRolView.verFecha}" style="width: 100%;" />
+			</p:panelGrid>
+
+			<!-- Botón de acción -->
+			<div align="right">
+				<p:commandButton value="Consultar" icon="pi pi-search" styleClass="btnSearch" actionListener="#{consultarRolView.consultarRolXFiltro()}" rendered="#{!consultarRolView.verBotonConsultarTodo}" />
+				<p:commandButton value="Consultar Todo" icon="pi pi-search" styleClass="btnSearch" actionListener="#{consultarRolView.consultarTodosLosRoles()}" rendered="#{consultarRolView.verBotonConsultarTodo}" />
+			</div>
+
+		</div>
+		
+		<br />
+		<p:dataTable id="dtRolXFiltro"
+			value="#{consultarRolView.lstResultadoFiltro}" var="resultado"
+			rendered="#{consultarRolView.verResultados}"
+			style="margin: auto; width: 80%;" paginator="true" rows="5"
+			paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,20,50"
+			currentPageReportTemplate="Mostrando {startRecord} - {endRecord} de {totalRecords} registros" >
+			
+			<f:facet name="header">
+		        <h1 style="text-align: center; font-weight: bold; font-size: 18px;">Roles encontrados</h1>
+		    </f:facet>
+			
+			<p:column headerText="Código Rol" style="text-align: center;"
+					  filterBy="#{resultado.idRol}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idRol}" />
+			</p:column>
+
+			<p:column headerText="Nombre" style="text-align: center;"
+					  filterBy="#{resultado.nombreRol}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.nombreRol}" />
+			</p:column>
+
+			<p:column headerText="Descripción" style="text-align: center;"
+					  filterBy="#{resultado.descripcionRol}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.descripcionRol}" />
+			</p:column>
+
+			<p:column headerText="Fecha creación" style="text-align: center;"
+					  filterBy="#{resultado.fechaCreacion}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.fechaCreacion}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="Estado" style="text-align: center;"
+					  filterBy="#{resultado.idEstado}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idEstado}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</ui:define>
+
+</ui:composition>

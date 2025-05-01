@@ -15,12 +15,15 @@
 	</div>
 	
 	<h:form id="formPrincipal">
+		
+		<p:commandButton style="display:none" type="button" />
  	
- 		<p:growl id="msgGeneric" showSummary="true" showDetail="true" sticky="true" styleClass="custom-growl" />
+ 		<p:growl id="msgGeneric" showSummary="true" showDetail="true" life="5000" styleClass="custom-growl" />
 
 		<div class="dynamicContent">
 			
-			<p:tabView id="tabViewContent" class="contentPath" effect="fade" effectDuration="low" activeIndex="#{contentView.activeTab}">
+			<p:tabView id="tabViewContent" class="contentPath" effect="fade" effectDuration="low" activeIndex="#{contentView.activeTab}"
+					   dynamic="true" cache="false">
 			
 				<c:forEach items="#{contentView.lstTabs}" var="tab">
 				

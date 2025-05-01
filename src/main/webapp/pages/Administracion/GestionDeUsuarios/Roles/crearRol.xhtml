@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:h="jakarta.faces.html"
+				xmlns:f="jakarta.faces.core"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+
+	<ui:param name="view" value="#{crearRolView}" />
+	<ui:param name="idLegend" value="Modulo creación de roles" />
+	<ui:param name="idFieldSet" value="flCrearRol" />
+	<ui:param name="iconModul" value="fa fa-users" />
+	
+	<ui:define name="contenidoModulo">
+
+		<div align="center">
+		
+			<p:panelGrid id="pnlCrearRol" columns="2">
+		
+				<p:outputLabel value="Nombre de rol:" style="font-weight: bold;" />
+				<p:inputText value="#{crearRolView.nombreRol}" style="width: 300px;">
+					<p:ajax listener="#{crearRolView.validarSiYaExisteRolXNombre()}" />
+				</p:inputText>
+				
+				<p:outputLabel value="Descripcion:" style="font-weight: bold; "  />
+				<p:inputTextarea value="#{crearRolView.descripcionRol}" cols="30" rows="3" autoResize="false" style="resize: none;" />
+		
+			</p:panelGrid>
+			
+		</div>
+		
+		<div align="right">
+			<p:commandButton id="btnCrearRol" styleClass="btnCrear"
+							 value="Crear Rol" icon="fa fa-save"
+							 actionListener="#{crearRolView.guardarRol()}" disabled="#{crearRolView.deshabilitarBtnCrear}" />		
+		</div>
+		
+	</ui:define>
+
+</ui:composition>

@@ -4,18 +4,48 @@
 	  xmlns:f="jakarta.faces.core"
 	  xmlns:h="jakarta.faces.html"
 	  xmlns:c="jakarta.tags.core"
-	  xmlns:p="http://primefaces.org/ui" >
+	  xmlns:p="http://primefaces.org/ui"
+	  lang="es">
 
 <h:head>
-	<title>JakartaEE10</title>
-	<h:outputStylesheet library="css" name="main.css" />
+	<title>OdontoWayApp</title>
+	<h:outputStylesheet library="css" name="login.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.css" />
 </h:head>
 
 <h:body>
 
-	<h1>Hola mundo</h1>
-	<h:form>
+	<h:form id="loginForm">
+		
+		<p:growl id="msgGeneric" showSummary="true" showDetail="true" life="5000" styleClass="custom-growl" />
+		
+	    <div class="login-container">
+	
+	        <div class="login-header">
+			    <h1 class="app-title">
+			        <span class="text-orange">Odonto</span><span class="text-green">Way</span>
+			    </h1>
+			    <i class="fa fa-tooth fa-3x login-icon"></i>
+			    <h2 class="login-subtitle">Iniciar Sesión</h2>
+			    <hr class="login-divider" />
+			</div>
+	
+	        <p:panelGrid id="pnlLogin" styleClass="pnlLogin" columns="1" style="width:100%;" >
+	            <p:outputLabel for="usuario" value="Usuario:" />
+	            <p:inputText id="usuario" styleClass="inputDatos" value="#{loginView.nombreUsuario}" />
+	
+	            <p:outputLabel for="clave" value="Contraseña:" />
+	            <p:password id="clave" styleClass="inputDatos" value="#{loginView.passwordUsuario}" />
+	        </p:panelGrid>
+	
+	        <br/>
+	
+	        <p:commandButton value="Ingresar"
+	                         icon="fa fa-sign-in-alt"
+	                         action="#{loginView.iniciarSesion()}"
+	                         styleClass="btnIniciarSesion"
+	                         process="loginForm" />
+	    </div>
 	</h:form>
 	
 </h:body>

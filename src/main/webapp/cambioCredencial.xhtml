@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog id="dlgCambioCredencial"
+			  widgetVar="wvCambioCredencial"
+			  header="Cambiar contraseña"
+			  modal="true"
+			  closable="false"
+			  draggable="false"
+			  resizable="false"
+			  showEffect="clip"
+			  hideEffect="explode">
+		
+		<p:outputLabel value="Estimado usuario se identifico que tiene asignada la clave generica" />
+		<br />
+		<p:outputLabel value="Porfavor realice el cambio de su clave en este momento." />
+		<br /><br />
+		
+		<p:panelGrid id="pnlCambioClave" columns="2">
+		
+			<p:outputLabel value="Contraseña" />
+		    <p:password value="#{cambioClaveView.primerClave}"
+		                feedback="true"
+		                toggleMask="true"
+		                promptLabel="Ingrese su contraseña"
+		                weakLabel="Débil"
+		                goodLabel="Media"
+		                strongLabel="Fuerte" style="width: 215px" />
+		
+		    <p:outputLabel value="Repetir Contraseña" />
+		    <p:password value="#{cambioClaveView.segundaClave}"
+		                label="Confirmar contraseña" style="width: 215px" />
+		
+		</p:panelGrid>
+		<br />
+		<p:separator />
+		<br />
+		<div align="right">
+			<p:commandButton styleClass="btnCrear" value="Guardar clave"
+							 actionListener="#{cambioClaveView.actualizarCredencialesUsuario()}" process="@this pnlCambioClave" />
+		</div>
+
+	</p:dialog>
+
+</ui:composition>

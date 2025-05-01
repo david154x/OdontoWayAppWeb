@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+				
+	<ui:param name="view" value="#{crearCiudadView}" />
+	<ui:param name="idLegend" value="Modulo Crear Ciudad" />
+	<ui:param name="idFieldSet" value="flCrearCiudad" />
+	<ui:param name="iconModul" value="fa fa-university" />
+				
+	
+	<ui:define name="contenidoModulo">
+		
+		<div align="center">
+		
+			<p:panelGrid id="pnlCrearCiudad" columns="2" >
+			
+				<p:outputLabel value="Pais: " style="font-weight: bold;" />
+				<p:selectOneMenu value="#{crearCiudadView.ciudadParaCrear.paisAsignado.idPais}" style="width: 300px" styleClass="no-arrow">
+					<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{crearCiudadView.lstPaisesActuales}" var="opcion"
+	                               itemLabel="#{opcion.idPais} - #{opcion.nombrePais}" itemValue="#{opcion.idPais}" />
+					<p:ajax listener="#{crearCiudadView.confirmarSeleccionPais()}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Nombre de Ciudad:" style="font-weight: bold;" />
+				<p:inputText value="#{crearCiudadView.ciudadParaCrear.nombreCiudad}" style="width: 300px; text-transform: uppercase;"
+							 disabled="#{crearCiudadView.deshabilitarInputNombreCiudad}">
+					<p:ajax listener="#{crearCiudadView.validarSiYaExisteCiudadXPais()}" />
+				</p:inputText>
+				
+				<p:outputLabel value="Nombre corto:" style="font-weight: bold;" />
+				<p:inputText value="#{crearCiudadView.ciudadParaCrear.nombreCorto}" style="width: 300px; text-transform: uppercase;"
+							 disabled="#{crearCiudadView.deshabilitarInputNombreCorto}">
+					<p:ajax listener="#{crearCiudadView.confirmarValoresAsignado()}" />
+				</p:inputText>
+			
+			</p:panelGrid>
+			
+			<div align="right">
+				<p:commandButton id="btnCrearCiudad" styleClass="btnCrear" value="Crear Ciudad" icon="fa fa-save" actionListener="#{crearCiudadView.crearCiudad()}" disabled="#{crearCiudadView.deshabilitarBtnCrear}" />		
+			</div>
+		
+		</div>
+		
+		<br />
+		
+	</ui:define>
+	
+</ui:composition>

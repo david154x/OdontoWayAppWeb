@@ -14,5 +14,6 @@ public class TabItemDTO {
 	private String title;
 	private String content;
 	private String path;
+	private String nombreView;
 
 }

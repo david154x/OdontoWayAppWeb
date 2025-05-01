@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/popupTemplate.xhtml">
+
+	<ui:param name="dialogId" value="dialogModificarPais" />
+	<ui:param name="widgetVar" value="wvModificarPais" />
+	<ui:param name="header" value="Modificar Pais" />
+	<ui:param name="modal" value="true" />
+	<ui:param name="draggable" value="false" />
+	<ui:param name="closable" value="true" />
+	<ui:param name="width" value="1000" />
+	<ui:param name="height" value="auto" />
+	<ui:param name="formId" value="formPopUpModificarPais" />
+
+	<ui:define name="contenidoDialogo">
+
+		<p:fieldset id="flDatosActuales" legend="Datos Actuales" toggleable="true">
+
+			<p:panelGrid columns="4">
+
+				<p:outputLabel value="Codigo Rol: " style="font-weight: bold;" />
+				<p:outputLabel value="#{modificarPaisView.paisSeleccionadoParaModificar.idPais}" />
+
+				<p:outputLabel value="Estado Pais: " style="font-weight: bold;" />
+				<p:outputLabel value="#{modificarPaisView.paisSeleccionadoParaModificar.idEstado}" />
+
+				<p:outputLabel value="Nombre Pais: " style="font-weight: bold;" />
+				<p:outputLabel value="#{modificarPaisView.paisSeleccionadoParaModificar.nombrePais}" />
+
+				<p:outputLabel value="Nombre Corto: " style="font-weight: bold;" />
+				<p:outputLabel value="#{modificarPaisView.paisSeleccionadoParaModificar.nombreCorto}" />
+
+			</p:panelGrid>
+
+		</p:fieldset>
+
+		<br />
+
+		<p:fieldset id="flNuevosValoresPais" legend="Nuevos valores">
+
+			<p:panelGrid columns="2">
+
+				<p:outputLabel value="Nuevo nombre Pais:" style="font-weight: bold;" />
+				<p:inputText value="#{modificarPaisView.paisConNuevosValores.nombrePais}"
+					style="width: 300px; text-transform: uppercase;">
+					<p:ajax listener="#{modificarPaisView.validarSiYaExisteNombrePais()}" />
+				</p:inputText>
+
+				<p:outputLabel value="Nuevo nombre corto:" style="font-weight: bold; " />
+				<p:inputText value="#{modificarPaisView.paisConNuevosValores.nombreCorto}"
+					style="width: 300px; text-transform: uppercase;" maxlength="3">
+					<p:ajax listener="#{modificarPaisView.validarNombreCorto()}" />
+				</p:inputText>
+
+			</p:panelGrid>
+
+		</p:fieldset>
+
+		<br />
+		<p:separator />
+		<br />
+
+		<div align="right">
+
+			<p:commandButton id="btnGuardarCambios" value="Guardar cambios" process="formPopUpModificarPais"
+			title="Guardar cambios" styleClass="btnUpd"
+				icon="fa fa-pencil-square" actionListener="#{modificarPaisView.guardarCambios()}"
+				disabled="#{modificarPaisView.habilitarBtnModificar}" />
+		</div>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,153 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/popupTemplate.xhtml">
+
+	<ui:param name="dialogId" value="dialogModificarUsuario" />
+	<ui:param name="widgetVar" value="wvModificarUsuario" />
+	<ui:param name="header" value="Modificar Usuario" />
+	<ui:param name="modal" value="true" />
+	<ui:param name="draggable" value="false" />
+	<ui:param name="closable" value="true" />
+	<ui:param name="width" value="1400" />
+	<ui:param name="height" value="auto" />
+	<ui:param name="formId" value="formPopUpModificarUsuario" />
+
+	<ui:define name="contenidoDialogo">
+
+		<p:fieldset id="flDatosActuales">
+
+			<p:panelGrid id="pnlDatosModificar" columns="4">
+
+				<p:outputLabel value="Id. Usuario:" style="font-weight: bold;" />
+				<p:outputLabel
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.idUsuario}" />
+
+				<p:outputLabel value="Num. Documento:" style="font-weight: bold;" />
+				<p:outputLabel
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.numeroDocumentoUsuario}" />
+
+				<p:outputLabel value="Rol:" style="font-weight: bold;" />
+				<p:selectOneMenu
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.rolAsignado.idRol}"
+					style="width: 300px" styleClass="no-arrow">
+
+					<f:selectItem itemLabel="-- Seleccione --" itemValue=""
+						noSelectionOption="true" />
+
+					<f:selectItems value="#{modificarUsuarioView.lstRolesDisponibles}"
+						var="opcion" itemLabel="#{opcion.nombreRol}" itemValue="#{opcion.idRol}" />
+
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Nombre Usuario:" style="font-weight: bold;" />
+				<p:outputLabel
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.nombreUsuario}" />
+
+				<p:outputLabel value="Primer Nombre:" style="font-weight: bold;" />
+				<p:outputLabel
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.primerNombre}" />
+
+				<p:outputLabel value="Segundo Nombre:" style="font-weight: bold;"
+					rendered="#{not empty modificarUsuarioView.usuarioSeleccionadoParaModificar.segundoNombre}" />
+				<p:outputLabel
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.segundoNombre}"
+					rendered="#{not empty modificarUsuarioView.usuarioSeleccionadoParaModificar.segundoNombre}" />
+
+				<p:outputLabel value="Primer Apellido:" style="font-weight: bold;" />
+				<p:outputLabel
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.primerApellido}" />
+
+				<p:outputLabel value="Segundo Apellido:" style="font-weight: bold;"
+					rendered="#{not empty modificarUsuarioView.usuarioSeleccionadoParaModificar.segundoApellido}" />
+				<p:outputLabel
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.segundoApellido}"
+					rendered="#{not empty modificarUsuarioView.usuarioSeleccionadoParaModificar.segundoApellido}" />
+
+				<p:outputLabel value="Direccion: " style="font-weight: bold;" />
+				<p:inputText
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.direccion}"
+					style="width: 300px; text-transform: uppercase;" />
+
+				<p:outputLabel value="Telefono:" style="font-weight: bold;" />
+				<p:inputNumber
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.telefono}"
+					minValue="0" maxValue="9999999999" thousandSeparator="" emptyValue="null"
+					decimalPlaces="0" />
+
+				<p:outputLabel value="Email:" style="font-weight: bold;" />
+				<p:inputText id="emailUsuarioNuevo"
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.email}"
+					style="width: 300px;">
+					<p:ajax listener="#{modificarUsuarioView.validarEmailValido()}"
+						process="pnlDatosModificar" />
+				</p:inputText>
+
+				<p:outputLabel value="Pais Asignado:" style="font-weight: bold;" />
+				<p:selectOneMenu
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.paisAsignado.idPais}"
+					style="width: 300px" styleClass="no-arrow">
+
+					<f:selectItem itemLabel="-- Seleccione --" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItems value="#{modificarUsuarioView.lstPaisesDisponibles}"
+						var="opcion" itemLabel="#{opcion.nombrePais}" itemValue="#{opcion.idPais}" />
+
+					<p:ajax listener="#{modificarUsuarioView.cargarCiudadesXPais()}"
+						process="pnlDatosModificar" />
+
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Ciudad Asignada:" style="font-weight: bold;" />
+				<p:selectOneMenu id="ciudadNacimiento"
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.ciudadAsignada.idCiudad}"
+					style="width: 300px" styleClass="no-arrow">
+
+					<f:selectItem itemLabel="-- Seleccione --" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItems value="#{modificarUsuarioView.lstCiudadesDisponibles}"
+						var="opcion" itemLabel="#{opcion.nombreCiudad}"
+						itemValue="#{opcion.idCiudad}" />
+
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Genero:" style="font-weight: bold;" />
+				<p:selectOneMenu id="generoUsuario"
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.genero}"
+					style="width: 300px" styleClass="no-arrow">
+
+					<f:selectItem itemLabel="-- Seleccione --" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItem itemLabel="Masculino" itemValue="M" />
+					<f:selectItem itemLabel="Femenino" itemValue="F" />
+					<f:selectItem itemLabel="Otro" itemValue="O" />
+
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Fecha Nacimiento:" style="font-weight: bold;" />
+				<p:calendar
+					value="#{modificarUsuarioView.usuarioSeleccionadoParaModificar.fechaNacimiento}"
+					pattern="dd-MM-yyyy" navigator="true"
+					maxdate="#{modificarUsuarioView.fechaMaximaNacimiento()}"
+					readonlyInput="true">
+				</p:calendar>
+
+			</p:panelGrid>
+
+		</p:fieldset>
+		
+		<br />
+		<p:separator />
+		<br />
+
+		<div align="right">
+			<p:commandButton value="Guardar cambios"
+				actionListener="#{modificarUsuarioView.actualizarInformacionUsuario}"
+				process="@form" update="@form" icon="pi pi-save" />
+		</div>
+
+	</ui:define>
+
+</ui:composition>

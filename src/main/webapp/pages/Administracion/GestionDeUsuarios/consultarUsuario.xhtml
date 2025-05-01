@@ -1,0 +1,215 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+				
+	<ui:param name="view" value="#{consultarUsuarioView}" />
+	<ui:param name="idLegend" value="Modulo Consultar Usuario" />
+	<ui:param name="idFieldSet" value="flConsultarUsuario" />
+	<ui:param name="iconModul" value="fa fa-user" />
+	
+	<ui:define name="contenidoModulo">
+	
+		<div align="center">
+		
+			 <!-- Filtro principal -->
+	        <p:panel styleClass="filtro-principal" style="margin-bottom: 20px; width: 80%;">
+	            <p:outputLabel value="Filtrar por:" style="font-weight: bold; margin-right: 10px;" />
+	            
+	            <p:selectCheckboxMenu value="#{consultarUsuarioView.filtroSeleccionado}"
+	                                  style="width: 510px"
+	                                  multiple="true"
+	                                  emptyLabel="Seleccione"
+	                                  updateLabel="true" styleClass="no-arrow" showSelectAll="false" filter="false">
+	                <f:selectItems value="#{consultarUsuarioView.lstTiposDefiltro}" var="opcion"
+	                               itemLabel="#{opcion}" itemValue="#{opcion}" />
+					<p:ajax event="toggleSelect" listener="#{consultarUsuarioView.onToggleSelect}"/>
+	                <p:ajax listener="#{consultarUsuarioView.asignarFiltro()}" />
+	            </p:selectCheckboxMenu>
+	            
+	        </p:panel>
+	        
+	        <p:panelGrid id="pnlConsultarUsuario" columns="4"
+				style="width: 80%;">
+				
+				<p:outputLabel value="Rol: " style="font-weight: bold;" rendered="#{consultarUsuarioView.verRol}" />
+				<p:selectOneMenu value="#{consultarUsuarioView.consultaFiltroUsuario.rolAsignado.idRol}" style="width: 300px" styleClass="no-arrow"
+								 rendered="#{consultarUsuarioView.verRol}">
+					<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{consultarUsuarioView.lstRolesActuales}" var="opcion"
+	                               itemLabel="#{opcion.nombreRol}" itemValue="#{opcion.idRol}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Pais: " style="font-weight: bold;" rendered="#{consultarUsuarioView.verPais}" />
+				<p:selectOneMenu id="selectOneMenuCiudades" value="#{consultarUsuarioView.consultaFiltroUsuario.paisAsignado.idPais}" style="width: 300px" styleClass="no-arrow"
+								 rendered="#{consultarUsuarioView.verPais}">
+					<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{consultarUsuarioView.lstPaisesActuales}" var="opcion"
+	                               itemLabel="#{opcion.nombrePais}" itemValue="#{opcion.idPais}" />
+	                <p:ajax listener="#{consultarUsuarioView.consultarCiudadesXPaises()}" process="pnlConsultarUsuario" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Ciudad: " style="font-weight: bold;" rendered="#{consultarUsuarioView.verCiudad}" />
+				<p:selectOneMenu value="#{consultarUsuarioView.consultaFiltroUsuario.ciudadAsignada.idCiudad}" style="width: 300px" styleClass="no-arrow"
+								 rendered="#{consultarUsuarioView.verCiudad}" disabled="#{consultarUsuarioView.deshabilitarSeleccionCiudad}">
+					<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{consultarUsuarioView.lstCiudadesActuales}" var="opcion"
+	                               itemLabel="#{opcion.idCiudad} - #{opcion.nombreCiudad}" itemValue="#{opcion.idCiudad}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Nombre Usuario:"
+							   rendered="#{consultarUsuarioView.verNombre}"
+							   style="font-weight: bold;" />
+				<p:inputText value="#{consultarUsuarioView.consultaFiltroUsuario.nombreUsuario}"
+							 rendered="#{consultarUsuarioView.verNombre}"
+							 style="width: 100%;" />
+
+				<p:outputLabel value="Estado:"
+							   rendered="#{consultarUsuarioView.verEstado}"
+							   style="font-weight: bold;" />
+				<p:selectOneMenu value="#{consultarUsuarioView.consultaFiltroUsuario.idEstado}"
+								 rendered="#{consultarUsuarioView.verEstado}"
+								 style="width: 100%;"
+								 styleClass="no-arrow">
+					<f:selectItem itemLabel="Seleccione" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItem itemLabel="Activo" itemValue="A" />
+					<f:selectItem itemLabel="Inactivo" itemValue="I" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Fecha:"
+					rendered="#{consultarUsuarioView.verFecha}" style="font-weight: bold;" />
+				<p:datePicker selectionMode="range"
+					value="#{consultarUsuarioView.consultaFiltroUsuario.lstFechasRango}" readonlyInput="true"
+					rendered="#{consultarUsuarioView.verFecha}" style="width: 100%;" />
+			</p:panelGrid>
+			
+			<div align="right">
+				<p:commandButton value="Consultar" icon="pi pi-search" styleClass="btnSearch" actionListener="#{consultarUsuarioView.consultarUsuarioXFiltro()}" rendered="#{!consultarUsuarioView.verBotonConsultarTodo}" />
+				<p:commandButton value="Consultar Todo" icon="pi pi-search" styleClass="btnSearch" actionListener="#{consultarUsuarioView.consultarTodosLosUsuario()}" rendered="#{consultarUsuarioView.verBotonConsultarTodo}" />
+			</div>
+
+		</div>
+		
+		<br />
+		<p:dataTable id="dtUsuarioXFiltro"
+			value="#{consultarUsuarioView.lstResultadoFiltro}" var="resultado"
+			rendered="#{consultarUsuarioView.verResultados}"
+			style="margin: auto; width: 100%;"
+			paginator="true" rows="5"
+			paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,20,50"
+			currentPageReportTemplate="Mostrando {startRecord} - {endRecord} de {totalRecords} registros" >
+			
+			<f:facet name="header">
+		        <h1 style="text-align: center; font-weight: bold; font-size: 18px;">Usuarios encontrados</h1>
+		    </f:facet>
+
+			<p:column headerText="Cod. Usuario" style="text-align: center;"
+					  filterBy="#{resultado.idUsuario}}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idUsuario}" />
+			</p:column>
+			
+			<p:column headerText="Numero documento" style="text-align: center;"
+					  filterBy="#{resultado.numeroDocumentoUsuario}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.numeroDocumentoUsuario}" />
+			</p:column>
+			
+			<p:column headerText="Nombre Usuario" style="text-align: center;"
+					  filterBy="#{resultado.nombreUsuario}}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.nombreUsuario}" />
+			</p:column>
+
+			<p:column headerText="Rol Asignado" style="text-align: center;"
+					  filterBy="#{resultado.rolAsignado.nombreRol}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.rolAsignado.nombreRol}" />
+			</p:column>
+			
+			<p:column headerText="Pais Asignado" style="text-align: center;"
+					  filterBy="#{resultado.paisAsignado.nombrePais}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.paisAsignado.nombrePais}" />
+			</p:column>
+			
+			<p:column headerText="Ciudad Asignada" style="text-align: center;"
+					  filterBy="#{resultado.ciudadAsignada.nombreCiudad}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.ciudadAsignada.nombreCiudad}" />
+			</p:column>
+			
+			<p:column headerText="Fecha creación" style="text-align: center;"
+					  filterBy="#{resultado.fechaCreacion}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.fechaCreacion}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="Estado" style="text-align: center;"
+					  filterBy="#{resultado.idEstado}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idEstado}" />
+			</p:column>
+			
+			<p:column style="text-align: center;" width="35">
+				<p:commandButton title="Ver informacion" icon="fa fa-search" styleClass="btnSearch" actionListener="#{consultarUsuarioView.abrirDlgInformacionUsuarioSeleccionado(resultado)}" />
+			</p:column>
+
+		</p:dataTable>
+		
+		<p:dialog header="Informacion Usuario" widgetVar="wvInfoUsuario"
+				  modal="true" showEffect="clip" hideEffect="explode"
+				  width="1400" closeOnEscape="true" closable="false">
+		
+			<p:panelGrid id="InformacionUsuarioSeleccionado" columns="4" >
+			
+				<p:outputLabel value="Cod. Usuario:" style="font-weight: bold;" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.idUsuario}" />
+				
+				<p:outputLabel value="Nombre Usuario:" style="font-weight: bold;" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.nombreUsuario}" />
+			
+				<p:outputLabel value="Primer Nombre:" style="font-weight: bold;" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.primerNombre}" />
+				
+				<p:outputLabel value="Segundo Nombre:" style="font-weight: bold;" rendered="#{not empty consultarUsuarioView.usuarioSeleccionado.segundoNombre}" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.segundoNombre}"
+							   rendered="#{not empty consultarUsuarioView.usuarioSeleccionado.segundoNombre}" />
+				
+				<p:outputLabel value="Primer Apellido:" style="font-weight: bold;" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.primerApellido}" />
+				
+				<p:outputLabel value="Segundo Apellido:" style="font-weight: bold;" rendered="#{not empty consultarUsuarioView.usuarioSeleccionado.segundoApellido}" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.segundoApellido}"
+							   rendered="#{not empty consultarUsuarioView.usuarioSeleccionado.segundoApellido}" />
+				
+				<p:outputLabel value="Direccion:" style="font-weight: bold;" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.direccion}" />
+				
+				<p:outputLabel value="Telefono:" style="font-weight: bold;" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.telefono}" />
+				
+				<p:outputLabel value="Email:" style="font-weight: bold;" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.email}" />
+				
+				<p:outputLabel value="Genero:" style="font-weight: bold;" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.generoCompleto}" />
+				
+				<p:outputLabel value="Fecha Nacimiento:" style="font-weight: bold;" />
+				<p:outputLabel value="#{consultarUsuarioView.usuarioSeleccionado.fechaNacimiento}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:outputLabel>
+				
+			</p:panelGrid>
+			
+			
+			<p:separator />
+			<div align="right">
+				<p:commandButton title="Cerrar" icon="fa fa-window-close" onclick="PF('wvInfoUsuario').hide();"
+								 style="margin-top: 15px" styleClass="btnCloseTab" />
+			</div>
+		
+		</p:dialog>
+	
+	</ui:define>
+				
+</ui:composition>

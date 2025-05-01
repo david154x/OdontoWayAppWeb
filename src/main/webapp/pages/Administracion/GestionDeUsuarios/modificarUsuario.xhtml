@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
+				
+	<ui:param name="view" value="#{modificarUsuarioView}" />
+	<ui:param name="idLegend" value="Modulo Modificar Usuario" />
+	<ui:param name="idFieldSet" value="flModificarUsuario" />
+	<ui:param name="iconModul" value="fa fa-user" />
+				
+	<ui:define name="contenidoModulo">
+		
+		<div align="right">
+			<p:commandButton value="actualizar información" icon="fa fa-retweet" styleClass="btnRefresh" actionListener="#{modificarUsuarioView.refrescarTodasLosUsuarios()}" />
+		</div>
+		
+		<br />
+		
+		<p:dataTable id="dtTodosLosUsuarios"
+			value="#{modificarUsuarioView.lstUsuariosActuales}" var="resultado"
+			style="margin: auto; width: 80%;" paginator="true" rows="5"
+			paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,20,50"
+			currentPageReportTemplate="Mostrando {startRecord} - {endRecord} de {totalRecords} registros" >
+			
+			<f:facet name="header">
+		        <h1 style="text-align: center; font-weight: bold; font-size: 18px;">Usuarios Actuales</h1>
+		    </f:facet>
+		    
+		    <p:column headerText="Cod. Usuario" style="text-align: center;"
+					  filterBy="#{resultado.idUsuario}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.idUsuario}" />
+			</p:column>
+		    
+			<p:column headerText="Numero documento" style="text-align: center;"
+					  filterBy="#{resultado.numeroDocumentoUsuario}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.numeroDocumentoUsuario}" />
+			</p:column>
+			
+			<p:column headerText="Nombre Usuario" style="text-align: center;"
+					  filterBy="#{resultado.nombreUsuario}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.nombreUsuario}" />
+			</p:column>
+
+			<p:column headerText="Nombre Pais" style="text-align: center;"
+					  filterBy="#{resultado.paisAsignado.idPais}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.paisAsignado.nombrePais}" />
+			</p:column>
+			
+			<p:column headerText="Nombre Ciudad" style="text-align: center;"
+					  filterBy="#{resultado.ciudadAsignada.nombreCiudad}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.ciudadAsignada.nombreCiudad}" />
+			</p:column>
+
+			<p:column headerText="Fecha creación" style="text-align: center;"
+					  filterBy="#{resultado.fechaCreacion}" filterMatchMode="contains">
+				<p:outputLabel value="#{resultado.fechaCreacion}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="Estado" style="text-align: center;" width="50" >
+				<p:toggleSwitch value="#{resultado.activo}">
+					<p:ajax listener="#{modificarUsuarioView.cambiarEstado(resultado)}" />
+				</p:toggleSwitch>
+			</p:column>
+			
+			<p:column style="text-align: center;" width="35">
+				<p:commandButton title="Modificar Usuario" icon="fa fa-cog" actionListener="#{modificarUsuarioView.abrirDlgModificarUsuario(resultado)}"  styleClass="btnUpd"/>
+			</p:column>
+			
+		</p:dataTable>
+		
+		<br />
+		
+		<ui:include src="/pages/Administracion/GestionDeUsuarios/popups/popupModificarUsuario.xhtml" />
+		
+	</ui:define>
+	
+</ui:composition>

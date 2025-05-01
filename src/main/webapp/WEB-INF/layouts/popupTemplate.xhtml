@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="jakarta.faces.facelets"
+				xmlns:f="jakarta.faces.core"
+				xmlns:h="jakarta.faces.html"
+				xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog id="#{dialogId}"
+			  widgetVar="#{widgetVar}"
+			  header="#{header}"
+			  modal="#{modal}"
+			  closable="#{closable}"
+			  draggable="#{draggable}"
+			  width="#{width}"
+			  height="#{height}"
+			  resizable="false"
+			  closeOnEscape="true"
+			  showEffect="clip"
+			  hideEffect="explode">
+
+		<h:form id="#{formId}">
+
+			<ui:insert name="contenidoDialogo" />
+
+		</h:form>
+
+	</p:dialog>
+
+</ui:composition>
