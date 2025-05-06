@@ -5,28 +5,28 @@
 				xmlns:p="http://primefaces.org/ui"
 				template="/WEB-INF/layouts/modulTemplate.xhtml">
 				
-	<ui:param name="view" value="#{perfilesUsuarioView}" />
-	<ui:param name="idLegend" value="Modulo Perfiles Usuario" />
-	<ui:param name="idFieldSet" value="flPerfilesUsuario" />
-	<ui:param name="iconModul" value="fa fa-user" />
+	<ui:param name="view" value="#{asignarMenuPerfilView}" />
+	<ui:param name="idLegend" value="Modulo Asignar Menu Perfil" />
+	<ui:param name="idFieldSet" value="flAsignarMenuPerfil" />
+	<ui:param name="iconModul" value="fa-solid fa-users-gear" />
 	
 	<ui:define name="contenidoModulo">
 	
-		<h:form id="formPerfilesUsuarios">
+		<h:form id="formAsignarMenuPerfil">
 	
 			<p:panelGrid columns="2" >
 				
-				<p:outputLabel value="Busqueda usuario:" />
-				<p:autoComplete id="buscarUsuario" 
-	                        	value="#{perfilesUsuarioView.usuarioBusqueda}" 
-	                        	completeMethod="#{perfilesUsuarioView.autocompletarUsuarios}" 
-	                        	var="usuario" 
-	                        	itemLabel="#{usuario.nombreUsuario}" 
-	                        	itemValue="#{usuario}"
-	                        	converter="usuarioConverter"
+				<p:outputLabel value="Busqueda perfil:" />
+				<p:autoComplete id="buscarPerfil" 
+	                        	value="#{asignarMenuPerfilView.perfilBusqueda}" 
+	                        	completeMethod="#{asignarMenuPerfilView.autocompletarPerfiles}" 
+	                        	var="perfil" 
+	                        	itemLabel="#{perfil.nombrePerfil}" 
+	                        	itemValue="#{perfil}"
+	                        	converter="perfilConverter"
 	                        	forceSelection="true">
 	                        	
-	           		<p:ajax event="itemSelect" listener="#{perfilesUsuarioView.cargarPerfilesUsuario()}" process="@this" />
+	           		<p:ajax event="itemSelect" listener="#{asignarMenuPerfilView.cargarMenuPerfil()}" process="@this" />
 	           		            	
 	            </p:autoComplete>
 				
@@ -34,18 +34,19 @@
 			
 			<br />
 	
-			<p:pickList id="pickListPerfiles" 
-			            value="#{perfilesUsuarioView.perfilesDualList}" 
-			            var="perfil" 
-			            itemLabel="#{perfil.idPerfil} - #{perfil.nombrePerfil}" 
-			            itemValue="#{perfil}" 
-			            converter="perfilConverter"
+			<p:pickList id="pickListMenu" 
+			            value="#{asignarMenuPerfilView.menusDualList}" 
+			            var="menu" 
+			            itemLabel="#{menu.nombreMenu}" 
+			            itemValue="#{menu}"
+			            converter="menuConverter"
 			            showSourceControls="true" 
 			            showTargetControls="true"
 			            showCheckbox="true" 
-			            responsive="true" 
+			            responsive="true"
 			            filter="true" 
-			            filterMatchMode="contains">
+			            filterMatchMode="contains"
+			            styleClass="pickListGenerico">
 			    <f:facet name="sourceCaption">Disponibles</f:facet>
             	<f:facet name="targetCaption">Asignados</f:facet>
 			</p:pickList>
@@ -56,9 +57,9 @@
 			
 			<div align="right">
 
-				<p:commandButton id="btnGuardarCambios" value="Guardar cambios" process="@this pickListPerfiles"
+				<p:commandButton id="btnGuardarCambios" value="Guardar cambios" process="@this pickListMenu"
 								 title="Guardar cambios" styleClass="btnUpd"
-								 icon="fa fa-pencil-square" actionListener="#{perfilesUsuarioView.guardarPerfilesAsignadosAlUsuario()}"
+								 icon="fa fa-pencil-square" actionListener="#{asignarMenuPerfilView.guardarMenusAsignadosPerfil()}"
 								  />
 			</div>
 			

@@ -2,14 +2,74 @@
 				xmlns:ui="jakarta.faces.facelets"
 				xmlns:f="jakarta.faces.core"
 				xmlns:h="jakarta.faces.html"
-				xmlns:p="http://primefaces.org/ui">
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
 				
-	<style>
-	
-	</style>
+	<ui:param name="view" value="#{crearProcedimientoView}" />
+	<ui:param name="idLegend" value="Modulo Crear Procedimiento" />
+	<ui:param name="idFieldSet" value="flCrearProcedimiento" />
+	<ui:param name="iconModul" value="fa-solid fa-notes-medical" />
+				
+	<ui:define name="contenidoModulo">
+		
+		<p:panelGrid columns="4">
+			
+			<p:outputLabel value="Tipo de procedimiento: *" style="font-weight: bold;" />
+			<p:selectOneMenu id="tipoProcedimiento" value="#{crearProcedimientoView.procedimientoParaCrear.tipoProcedimiento}"
+							 style="width: 300px" styleClass="no-arrow">
 
-	<div class="genericBox">
+				<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+				<f:selectItem itemLabel="Procedimiento" itemValue="procedimiento" />
+				<f:selectItem itemLabel="Tratamiento" itemValue="tratamiento" />
+
+			</p:selectOneMenu>
+			
+			<p:outputLabel value="Nombre: *" style="font-weight: bold;" />
+			<p:inputText value="#{crearProcedimientoView.procedimientoParaCrear.nombreProcedimiento}" styleClass="inputOdontoWay" />
+			
+			<p:outputLabel value="Descripcion: *" style="font-weight: bold;" />
+			<p:inputTextarea value="#{crearProcedimientoView.procedimientoParaCrear.descripcionProcedimiento}" cols="30" rows="3" autoResize="false" style="resize: none;" />
+			
+			<p:outputLabel value="Cantidad: *" style="font-weight: bold;" />
+			<p:selectOneMenu value="#{crearProcedimientoView.procedimientoParaCrear.cantidad}"
+							 style="width: 300px" styleClass="no-arrow" filter="true" filterMatchMode="contains">
+
+				<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+				<f:selectItems value="#{crearProcedimientoView.lstCantidadesDisponibles}" />
+				
+			</p:selectOneMenu>
+			
+			<p:outputLabel value="Tiempo Duracion: *" style="font-weight: bold;" />
+			<p:selectOneMenu value="#{crearProcedimientoView.procedimientoParaCrear.tiempoDuracion}"
+							 style="width: 300px" styleClass="no-arrow" filter="true" filterMatchMode="contains">
+
+				<f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true" />
+				<f:selectItems value="#{crearProcedimientoView.lstTiempoDuracionDisponibles}" />
+				
+			</p:selectOneMenu>
+
+			<p:outputLabel value="Valor Costo: *" style="font-weight: bold;" />
+			<p:inputNumber value="#{crearProcedimientoView.procedimientoParaCrear.valorCosto}"
+						   symbol="$ " placeholder="Ej: 106.409.00"
+				thousandSeparator="." decimalSeparator="," emptyValue="null" decimalPlaces="2">
+			</p:inputNumber>
+
+
+		</p:panelGrid>
+		
+		<br />
+		<p:separator />
+		<br />
+		
+		<div align="right">
+		
+			<p:commandButton id="btnCrearProcedimiento" styleClass="btnCrear"
+							 value="Crear Procedimiento" icon="fa fa-save"
+							 actionListener="#{crearProcedimientoView.crearProcedimiento()}" />
+		</div>
+		
+		<br />
 	
-	</div>
+	</ui:define>
 	
 </ui:composition>

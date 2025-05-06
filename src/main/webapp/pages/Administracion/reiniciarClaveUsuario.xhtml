@@ -1,15 +1,43 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 				xmlns:ui="jakarta.faces.facelets"
 				xmlns:f="jakarta.faces.core"
-				xmlns:h="jakarta.faces.html"
-				xmlns:p="http://primefaces.org/ui">
+				xmlns:h="jakarta.faces.htjml"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
 				
-	<style>
+	<ui:param name="view" value="#{reiniciarClaveUsuarioView}" />
+	<ui:param name="idLegend" value="Modulo Reiniciar Clave Usuario" />
+	<ui:param name="idFieldSet" value="flReiniciarClaveUsuario" />
+	<ui:param name="iconModul" value="fa-solid fa-users-gear" />
 	
-	</style>
+	<ui:define name="contenidoModulo">
+		
+		<p:panelGrid columns="2">
+				
+			<p:outputLabel value="Buscar Usuario" />
+			<p:autoComplete id="buscarUsuario" value="#{reiniciarClaveUsuarioView.usuarioBusqueda}"
+							completeMethod="#{reiniciarClaveUsuarioView.autocompletarUsuarios}"
+							var="usuario" itemLabel="#{usuario.nombreUsuario}"
+							itemValue="#{usuario}" converter="usuarioConverter" forceSelection="true">
 
-	<div class="genericBox">
-	
-	</div>
+				<p:ajax event="itemSelect" listener="#{reiniciarClaveUsuarioView.identificarUsuario()}" process="@this" />
+
+			</p:autoComplete>
+
+		</p:panelGrid>
+		
+		<br />
+		<p:separator />
+		<br />
+		
+		<div align="right">
+			<p:commandButton value="Reiniciar Clave" icon="fa-solid fa-arrows-rotate" styleClass="btnUpd"
+							 disabled="#{reiniciarClaveUsuarioView.deshabilitarBtnReiniciarClave}"
+							 actionListener="#{reiniciarClaveUsuarioView.reiniciarClaveUsuarioSeleccionado()}"/>
+		</div>
+		
+		<br />
+			
+	</ui:define>
 	
 </ui:composition>

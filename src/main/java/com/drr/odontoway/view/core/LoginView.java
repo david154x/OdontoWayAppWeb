@@ -57,8 +57,9 @@ public class LoginView implements Serializable {
 				return ;
 			}
 			
+			this.sessionDataView.setIdUsuario(this.usuarioAutenticado.getIdUsuario());
 			this.sessionDataView.setNombreUsuario(this.usuarioAutenticado.getNombreUsuario());
-			this.sessionDataView.setNombreModulo(this.usuarioAutenticado.getRolAsignado().getNombreRol());
+			this.sessionDataView.setRolDeUsuario(this.usuarioAutenticado.getRolAsignado().getNombreRol());
 			this.sessionDataView.setGeneroUsuario(this.usuarioAutenticado.getGenero());
 			this.sessionDataView.setSaludarUsuario(Boolean.TRUE);
 			

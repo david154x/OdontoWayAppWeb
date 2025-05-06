@@ -283,6 +283,10 @@ public class CrearUsuarioView extends ModulBaseView {
 	public void validarNumeroDocumento() {
 		try {
 			
+			if ( this.usuarioParaCrear.getNumeroDocumentoUsuario() == null
+					|| this.usuarioParaCrear.getNumeroDocumentoUsuario().isEmpty() )
+				return ;
+			
 			if ( !this.numeroDocumentoPermitido )
 				this.numeroDocumentoPermitido = Boolean.TRUE;
 			

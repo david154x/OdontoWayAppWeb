@@ -1,5 +1,6 @@
 package com.drr.odontoway.view.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -15,21 +16,26 @@ import com.drr.odontoway.core.dto.MenuDTO;
 import com.drr.odontoway.core.service.MenuService;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
 
 @Named
-@RequestScoped
-public class MenuView {
+@ViewScoped
+public class MenuView implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Getter @Setter
 	private MenuModel menuModel;
 	
 	@Inject
 	private MenuService menuService;
+	
+	@Inject
+	private SessionDataView sessionDataView;
 	
 	@PostConstruct
 	private void init() {
@@ -38,9 +44,9 @@ public class MenuView {
 	}
 	
 	private void crearMenuXUsuario() {
-	    Integer idUsuario = 1;
 	    try {
-	        List<MenuDTO> lstMenuUsuario = this.menuService.consultarMenuXUsuario(idUsuario);
+	    	
+	        List<MenuDTO> lstMenuUsuario = this.menuService.consultarMenuXUsuario(this.sessionDataView.getIdUsuario());
 	        Map<Integer, DefaultSubMenu> subMenus = new HashMap<>();
 	        Map<Integer, DefaultSubMenu> modulos = new HashMap<>();
 
@@ -136,6 +142,8 @@ public class MenuView {
 	            });
 	            
 				List<DefaultSubMenu> lstMenuOrdenado = new ArrayList<>(modulos.values());
+				
+				lstMenuOrdenado.sort(Comparator.comparing(DefaultSubMenu::getLabel, Comparator.nullsLast(String::compareToIgnoreCase)));
 
 				for (DefaultSubMenu modulo : lstMenuOrdenado) {
 					this.menuModel.getElements().add(modulo);

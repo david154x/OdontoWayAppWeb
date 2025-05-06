@@ -131,7 +131,6 @@ body {
     min-height: 100% !important;
     border: none !important;
     background: transparent !important;
-    transition: width 0.3s ease;
 }
 
 .rotate {
@@ -152,7 +151,6 @@ body {
     background: #7091E6 !important;
     color: white !important;
     font-weight: bold !important;
-    transition: width 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
 }
 
 .menu .ui-widget:hover {
@@ -475,4 +473,12 @@ body {
     text-align: center !important;
 }
 
+.pickListGenerico .ui-picklist-list {
+    max-height: 500px;
+    overflow-y: auto;
+}
 
+.inputOdontoWay {
+	width: 300px;
+	text-transform: uppercase;
+}

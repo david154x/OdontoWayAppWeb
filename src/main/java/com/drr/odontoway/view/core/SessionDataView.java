@@ -14,6 +14,9 @@ public class SessionDataView implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Getter @Setter
+	private Integer idUsuario;
+	
+	@Getter @Setter
 	private String nombreUsuario;
 	
 	@Getter @Setter

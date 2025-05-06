@@ -20,7 +20,7 @@ import lombok.Setter;
 
 @Named
 @ViewScoped
-public class AsigarPerfilUsuarioView extends ModulBaseView {
+public class AsignarPerfilUsuarioView extends ModulBaseView {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -48,7 +48,7 @@ public class AsigarPerfilUsuarioView extends ModulBaseView {
 	@PostConstruct
 	public void init() {
 		
-		super.initModulBase("consultar");
+		super.initModulBase("modificar");
 		this.inicializarUsuarioBusqueda();
 		this.inicializarDualList();
 		
@@ -90,14 +90,9 @@ public class AsigarPerfilUsuarioView extends ModulBaseView {
             this.jsfUtils.updateMsg();
         }
     }
-
     
     private void inicializarUsuarioBusqueda() {
     	this.usuarioBusqueda = new UsuarioDTO();
-    }
-    
-    public UsuarioDTO buscarUsuarioPorId(Integer idUsuario) {
-        return usuarioService.consultarUsuarioXId(idUsuario);
     }
     
     public PerfilDTO buscarPerfilPorId(Integer idPerfil) {

@@ -5,10 +5,10 @@
 				xmlns:p="http://primefaces.org/ui"
 				template="/WEB-INF/layouts/modulTemplate.xhtml">
 				
-	<ui:param name="view" value="#{asigarPerfilUsuarioView}" />
+	<ui:param name="view" value="#{asignarPerfilUsuarioView}" />
 	<ui:param name="idLegend" value="Modulo Perfiles Usuario" />
 	<ui:param name="idFieldSet" value="flPerfilesUsuario" />
-	<ui:param name="iconModul" value="fa fa-user" />
+	<ui:param name="iconModul" value="fa-solid fa-users-gear" />
 	
 	<ui:define name="contenidoModulo">
 	
@@ -18,15 +18,15 @@
 				
 				<p:outputLabel value="Busqueda usuario:" />
 				<p:autoComplete id="buscarUsuario" 
-	                        	value="#{asigarPerfilUsuarioView.usuarioBusqueda}" 
-	                        	completeMethod="#{asigarPerfilUsuarioView.autocompletarUsuarios}" 
+	                        	value="#{asignarPerfilUsuarioView.usuarioBusqueda}" 
+	                        	completeMethod="#{asignarPerfilUsuarioView.autocompletarUsuarios}" 
 	                        	var="usuario" 
 	                        	itemLabel="#{usuario.nombreUsuario}" 
 	                        	itemValue="#{usuario}"
 	                        	converter="usuarioConverter"
 	                        	forceSelection="true">
 	                        	
-	           		<p:ajax event="itemSelect" listener="#{asigarPerfilUsuarioView.cargarPerfilesUsuario()}" process="@this" />
+	           		<p:ajax event="itemSelect" listener="#{asignarPerfilUsuarioView.cargarPerfilesUsuario()}" process="@this" />
 	           		            	
 	            </p:autoComplete>
 				
@@ -35,7 +35,7 @@
 			<br />
 	
 			<p:pickList id="pickListPerfiles" 
-			            value="#{asigarPerfilUsuarioView.perfilesDualList}" 
+			            value="#{asignarPerfilUsuarioView.perfilesDualList}" 
 			            var="perfil" 
 			            itemLabel="#{perfil.idPerfil} - #{perfil.nombrePerfil}" 
 			            itemValue="#{perfil}" 
@@ -45,7 +45,9 @@
 			            showCheckbox="true" 
 			            responsive="true" 
 			            filter="true" 
-			            filterMatchMode="contains">
+			            filterMatchMode="contains"
+			            styleClass="pickListGenerico">
+			            
 			    <f:facet name="sourceCaption">Disponibles</f:facet>
             	<f:facet name="targetCaption">Asignados</f:facet>
 			</p:pickList>
@@ -58,7 +60,7 @@
 
 				<p:commandButton id="btnGuardarCambios" value="Guardar cambios" process="@this pickListPerfiles"
 								 title="Guardar cambios" styleClass="btnUpd"
-								 icon="fa fa-pencil-square" actionListener="#{asigarPerfilUsuarioView.guardarPerfilesAsignadosAlUsuario()}"
+								 icon="fa fa-pencil-square" actionListener="#{asignarPerfilUsuarioView.guardarPerfilesAsignadosAlUsuario()}"
 								  />
 			</div>
 			

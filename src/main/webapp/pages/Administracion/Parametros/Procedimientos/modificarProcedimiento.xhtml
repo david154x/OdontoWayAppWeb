@@ -2,14 +2,14 @@
 				xmlns:ui="jakarta.faces.facelets"
 				xmlns:f="jakarta.faces.core"
 				xmlns:h="jakarta.faces.html"
-				xmlns:p="http://primefaces.org/ui">
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/modulTemplate.xhtml">
 				
-	<style>
-	
-	</style>
-
-	<div class="genericBox">
-	
-	</div>
+	<ui:param name="view" value="#{modificarProcedimientoView}" />
+	<ui:param name="idLegend" value="Modulo Modificar Procedimiento" />
+	<ui:param name="idFieldSet" value="flModificarProcedimiento" />
+	<ui:param name="iconModul" value="fa-solid fa-notes-medical" />
+				
+	<ui:define name="contenidoModulo"></ui:define>
 	
 </ui:composition>
